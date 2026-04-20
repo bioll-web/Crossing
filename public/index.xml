@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>bioll的技术博客</title>
+    <link>https://bioll-web.github.io/OS-tech-blog/</link>
+    <description>Recent content on bioll的技术博客</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <atom:link href="https://bioll-web.github.io/OS-tech-blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>https://bioll-web.github.io/OS-tech-blog/docs/os-course/linux-boot/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://bioll-web.github.io/OS-tech-blog/docs/os-course/linux-boot/</guid>
+      <description>&lt;p&gt;-&amp;ndash;&lt;/p&gt;&#xA;&lt;p&gt;title: &amp;ldquo;Linux 系统启动过程分析&amp;rdquo;&lt;/p&gt;&#xA;&lt;p&gt;weight: 1&lt;/p&gt;&#xA;&lt;p&gt;-&amp;ndash;&lt;/p&gt;&#xA;&lt;p&gt;# Linux 系统启动过程分析&lt;/p&gt;&#xA;&lt;p&gt;这里写你自己的内容&amp;hellip;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,9 @@
+baseURL = 'https://bioll-web.github.io/OS-tech-blog/'
+languageCode = 'zh-cn'
+title = 'bioll的技术博客'
+theme = 'hugo-book'
+
+[params]
+  BookTheme = 'dark'
+  BookToC = true
+  BookSection = 'docs'
