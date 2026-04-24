@@ -4,7 +4,21 @@
 {{- if eq site.Language.Lang "en" -}}{{- $prefix = "/Crossing/en/docs/" -}}{{- end -}}
 
 <nav class="topnav">
-  <a class="topnav-brand" href="{{ site.Home.RelPermalink }}">Crossing</a>
+  <a class="topnav-brand" href="{{ site.Home.RelPermalink }}">
+    <svg width="32" height="32" viewBox="0 0 96 96" style="flex-shrink:0;" aria-hidden="true">
+      <style>
+        .logo-bg { fill: #1a1a2e; }
+        .logo-cross { stroke: #6b7fee; }
+        :root[data-theme="dark"] .logo-bg { fill: #6b7fee; }
+        :root[data-theme="dark"] .logo-cross { stroke: #1a1a2e; }
+      </style>
+      <rect width="96" height="96" rx="20" class="logo-bg"/>
+      <line x1="16" y1="48" x2="80" y2="48" class="logo-cross" stroke-width="4" stroke-linecap="round"/>
+      <line x1="48" y1="16" x2="48" y2="80" class="logo-cross" stroke-width="4" stroke-linecap="round"/>
+      <text x="48" y="72" text-anchor="middle" font-family="Georgia,serif" font-size="68" font-weight="700" fill="none" stroke="white" stroke-width="2.5">C</text>
+    </svg>
+    <span>Crossing</span>
+  </a>
   <div class="topnav-right">
     <div class="crossing-topnav">
       <div class="nav-item nav-dropdown">

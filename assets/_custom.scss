@@ -86,7 +86,7 @@
 
   .book-menu-content {
     left: 0;
-    top: 48px;
+    top: 56px;
     width: 380px;
     background: var(--bg-sidebar, #0c0c0e);
     border-right: 1px solid var(--border-color, #26262a);
@@ -95,7 +95,7 @@
 
   // 覆盖主题在 ≥90rem 的 top:1rem（特异性 0,2,0 需匹配）
   .book-menu .book-menu-content {
-    top: 48px;
+    top: 56px;
   }
 
   .book-page {
@@ -154,7 +154,7 @@
 
 // ── 4. 顶部导航栏 ──────────────────────────────────────────────
 body {
-  padding-top: 48px;
+  padding-top: 56px;
   background-color: var(--body-background, #1c1c20);
   color: var(--body-font-color, #e4e4e7);
 }
@@ -164,7 +164,7 @@ body {
   top: 0;
   left: 0;
   width: 100vw;
-  height: 48px;
+  height: 56px;
   z-index: 100;
   background: var(--topbar-bg, #0c0c0e);
   border-bottom: 1px solid var(--border-color, #26262a);
@@ -176,8 +176,11 @@ body {
 }
 
 .topnav-brand {
-  font-weight: 700;
-  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 15px;
   color: var(--body-font-color, #e4e4e7);
   text-decoration: none;
   letter-spacing: 0.02em;

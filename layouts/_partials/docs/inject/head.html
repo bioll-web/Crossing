@@ -6,3 +6,147 @@
   document.documentElement.setAttribute('data-theme', initial);
 })();
 </script>
+
+<style>
+#crossing-splash {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+#crossing-splash.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+#splash-logo {
+  width: 140px;
+  height: 140px;
+  position: relative;
+}
+#splash-bg {
+  width: 140px;
+  height: 140px;
+  border-radius: 28px;
+  background: #1a1a2e;
+  position: absolute;
+  top: 0; left: 0;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+}
+#splash-cross-h {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0; height: 3px;
+  background: #6b7fee;
+  border-radius: 2px;
+  opacity: 0;
+  transition: width 0.4s ease, opacity 0.3s ease;
+}
+#splash-cross-v {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 3px; height: 0;
+  background: #6b7fee;
+  border-radius: 2px;
+  opacity: 0;
+  transition: height 0.4s ease 0.15s, opacity 0.3s ease 0.15s;
+}
+#splash-c {
+  position: absolute;
+  top: 0; left: 0;
+  width: 140px; height: 140px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+#splash-text {
+  text-align: center;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+#splash-zh {
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 32px;
+  color: #1a1a2e;
+  letter-spacing: 0.05em;
+}
+#splash-en {
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 16px;
+  color: #888;
+  margin-top: 8px;
+  letter-spacing: 0.15em;
+}
+</style>
+
+<div id="crossing-splash">
+  <div id="splash-logo">
+    <div id="splash-bg"></div>
+    <div id="splash-cross-h"></div>
+    <div id="splash-cross-v"></div>
+    <svg id="splash-c" viewBox="0 0 140 140">
+      <text x="70" y="104" text-anchor="middle"
+        font-family="Georgia,serif" font-size="100" font-weight="700"
+        fill="none" stroke="white" stroke-width="3">C</text>
+    </svg>
+  </div>
+  <div id="splash-text">
+    <div id="splash-zh">欢迎来到渡口</div>
+    <div id="splash-en">welcome to crossing</div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var s = sessionStorage.getItem('crossing-splash-shown');
+  if (s) {
+    document.getElementById('crossing-splash').style.display = 'none';
+    return;
+  }
+  sessionStorage.setItem('crossing-splash-shown', '1');
+  var bg = document.getElementById('splash-bg');
+  var ch = document.getElementById('splash-cross-h');
+  var cv = document.getElementById('splash-cross-v');
+  var cl = document.getElementById('splash-c');
+  var tw = document.getElementById('splash-text');
+  var sp = document.getElementById('crossing-splash');
+  setTimeout(function(){
+    bg.style.opacity = '1';
+    bg.style.transform = 'scale(1)';
+  }, 300);
+  setTimeout(function(){
+    ch.style.width = '94px';
+    ch.style.opacity = '1';
+    cv.style.height = '94px';
+    cv.style.opacity = '1';
+  }, 900);
+  setTimeout(function(){
+    cl.style.opacity = '1';
+  }, 1500);
+  setTimeout(function(){
+    tw.style.opacity = '1';
+    tw.style.transform = 'translateY(0)';
+  }, 2000);
+  setTimeout(function(){
+    sp.classList.add('fade-out');
+  }, 3400);
+  setTimeout(function(){
+    sp.style.display = 'none';
+  }, 4300);
+})();
+</script>
