@@ -8,19 +8,19 @@ title: "Crossing · 渡口"
 目前并行推进三条主线，点击卡片进入对应项目。
 
 <div class="term-cards">
-  <a class="term-card" href="/crossing/docs/os-course/">
+  <a class="term-card" href="/Crossing/docs/os-course/">
     <h3>Term 1</h3>
     <div class="term-subtitle">Linux 内核深度解析</div>
     <p>从 Linux 0.01 源码到手写 OS，三条线并行推进：Linux 内核源码分析、OS in 1,000 Lines、MIT 6.828 实验。</p>
     <span class="term-card-cta">进入 Term 1 →</span>
   </a>
-  <a class="term-card" href="/crossing/docs/ysyx/">
+  <a class="term-card" href="/Crossing/docs/ysyx/">
     <h3>Term 2</h3>
     <div class="term-subtitle">ysyx "一生一芯"计划</div>
     <p>参与南京大学主办的处理器设计项目，从数字逻辑出发，实现一个能跑真实程序的 RISC-V 处理器。</p>
     <span class="term-card-cta">进入 Term 2 →</span>
   </a>
-  <a class="term-card" href="/crossing/docs/c-lang/">
+  <a class="term-card" href="/Crossing/docs/c-lang/">
     <h3>Term 3</h3>
     <div class="term-subtitle">C 语言学习</div>
     <p>以 K&R、《C 和指针》、《C 专家编程》为主线，系统推进 C 语言，为 Term 1/2 提供底层支撑。</p>
