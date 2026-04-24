@@ -1,17 +1,33 @@
 {{- $docsPage    := site.GetPage "docs" -}}
 {{- $currentPage := . -}}
+{{- $prefix := "/Crossing/docs/" -}}
+{{- if eq site.Language.Lang "en" -}}{{- $prefix = "/Crossing/en/docs/" -}}{{- end -}}
 
 <nav class="topnav">
   <a class="topnav-brand" href="{{ site.Home.RelPermalink }}">Crossing</a>
-  <div class="topnav-terms">
-    {{- with $docsPage -}}
-    {{- range .Sections -}}
-    {{- $isActive := or (eq $currentPage .) (.IsAncestor $currentPage) -}}
-    <a href="{{ .RelPermalink }}"{{ if $isActive }} class="active"{{ end }}>Term {{ .Weight }}</a>
-    {{- end -}}
-    {{- end -}}
-  </div>
   <div class="topnav-right">
+    <div class="crossing-topnav">
+      <div class="nav-item nav-dropdown">
+        <a href="{{ $prefix }}tech-frontier/">Tech Frontier ▾</a>
+        <ul class="dropdown-menu">
+          {{- if eq site.Language.Lang "en" }}
+          <li><a href="{{ $prefix }}tech-frontier/os-course/">Term 1 · Linux Kernel</a></li>
+          <li><a href="{{ $prefix }}tech-frontier/ysyx/">Term 2 · ysyx</a></li>
+          <li><a href="{{ $prefix }}tech-frontier/c-lang/">Term 3 · C Language</a></li>
+          {{- else }}
+          <li><a href="{{ $prefix }}tech-frontier/os-course/">Term 1 · Linux 内核</a></li>
+          <li><a href="{{ $prefix }}tech-frontier/ysyx/">Term 2 · ysyx 一生一芯</a></li>
+          <li><a href="{{ $prefix }}tech-frontier/c-lang/">Term 3 · C 语言</a></li>
+          {{- end }}
+        </ul>
+      </div>
+      <div class="nav-item">
+        <a href="{{ $prefix }}classic-talk/">Classic Talk</a>
+      </div>
+      <div class="nav-item">
+        <a href="{{ $prefix }}wild-program/">Wild Program</a>
+      </div>
+    </div>
     {{ with $currentPage.Translations -}}
     <div class="topnav-lang">
       {{- range . -}}
@@ -64,4 +80,24 @@
     });
   }
 })();
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.nav-dropdown > a').forEach(function(trigger) {
+    trigger.addEventListener('click', function(e) {
+      if (window.matchMedia('(hover: none)').matches) {
+        e.preventDefault();
+        trigger.parentElement.classList.toggle('active');
+      }
+    });
+  });
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.nav-dropdown')) {
+      document.querySelectorAll('.nav-dropdown.active').forEach(function(el) {
+        el.classList.remove('active');
+      });
+    }
+  });
+});
 </script>

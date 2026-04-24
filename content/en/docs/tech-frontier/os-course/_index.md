@@ -4,12 +4,11 @@ weight: 1
 bookCollapseSection: true
 ---
 
-# Term 1: Linux 内核深度解析
+# Term 1: Linux Kernel Deep Dive
 
-这一学期我把内核的学习拆成三条平行推进的线：
+Under construction. Content will be updated as I progress.
 
-1. **Linux 0.01 源码解析** —— 从历史最早期、代码量最小（约一万行）的版本切入，读懂"一个完整 OS 最少要有什么"。
-2. **《操作系统概念》深入阅读** —— 以 Silberschatz 第 9 版为主教材，补齐理论框架，对照源码理解概念。
-3. **手写操作系统** —— 结合 *OS in 1,000 Lines*（RISC-V + QEMU）与 MIT 6.828/6.S081，自己动手实现一个能跑的小内核。
-
-三条线不是割裂的：源码提供历史样本、教材提供概念骨架、动手实现提供直觉。交叉验证才是我选择这种方式的理由。
+Three parallel tracks planned:
+1. Linux 0.01 source code analysis
+2. *Operating System Concepts* (Silberschatz, 9th ed.) close reading
+3. Hands-on implementation: *OS in 1,000 Lines* and MIT 6.828

@@ -213,6 +213,7 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  margin-left: auto;
 }
 
 .topnav-lang {
@@ -339,4 +340,80 @@ body {
 .term-card:hover .term-card-cta {
   background: var(--color-link, #818cf8);
   color: var(--topbar-bg, #0c0c0e);
+}
+
+// ── 6. 顶部下拉导航 ────────────────────────────────────────────
+.crossing-topnav {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+  padding-right: 0.5rem;
+  border-right: 1px solid var(--border-color, #26262a);
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-item > a {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  color: var(--gray-500, #a1a1aa);
+  text-decoration: none;
+  transition: color 0.15s, background 0.15s;
+  white-space: nowrap;
+}
+
+.nav-item > a:hover {
+  color: var(--body-font-color, #e4e4e7);
+  background: var(--hover-bg, rgba(255, 255, 255, 0.05));
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--topbar-bg, #0c0c0e);
+  border: 1px solid var(--border-color, #26262a);
+  border-radius: 6px;
+  padding: 8px 0 0.4rem;
+  min-width: 220px;
+  list-style: none;
+  margin: 0;
+  z-index: 200;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+.dropdown-menu li {
+  margin: 0;
+  list-style: none;
+  padding: 0;
+}
+
+.dropdown-menu li a {
+  display: block;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  color: var(--gray-500, #a1a1aa);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.15s, background 0.15s;
+}
+
+.dropdown-menu li a:hover {
+  color: var(--body-font-color, #e4e4e7);
+  background: var(--hover-bg, rgba(255, 255, 255, 0.05));
+}
+
+@media (hover: hover) {
+  .nav-dropdown:hover .dropdown-menu {
+    display: block;
+  }
+}
+
+.nav-dropdown.active .dropdown-menu {
+  display: block;
 }
