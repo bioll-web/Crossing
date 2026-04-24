@@ -8,23 +8,23 @@ title: "Crossing · 渡口"
 目前并行推进三条主线，点击卡片进入对应项目。
 
 <div class="term-cards">
-  <a class="term-card" href="/Crossing/docs/os-course/">
-    <h3>Term 1</h3>
-    <div class="term-subtitle">Linux 内核深度解析</div>
-    <p>从 Linux 0.01 源码到手写 OS，三条线并行推进：Linux 内核源码分析、OS in 1,000 Lines、MIT 6.828 实验。</p>
-    <span class="term-card-cta">进入 Term 1 →</span>
+  <a class="term-card" href="/Crossing/docs/tech-frontier/">
+    <h3>📚 Tech Frontier</h3>
+    <div class="term-subtitle">技术边境</div>
+    <p>底层系统的学习记录 —— 操作系统内核、处理器设计、C 语言底层机制。目前进行 Term 1 Linux 内核、Term 2 ysyx 一生一芯、Term 3 C 语言学习三条主线。</p>
+    <span class="term-card-cta">进入 Tech Frontier →</span>
   </a>
-  <a class="term-card" href="/Crossing/docs/ysyx/">
-    <h3>Term 2</h3>
-    <div class="term-subtitle">ysyx "一生一芯"计划</div>
-    <p>参与南京大学主办的处理器设计项目，从数字逻辑出发，实现一个能跑真实程序的 RISC-V 处理器。</p>
-    <span class="term-card-cta">进入 Term 2 →</span>
+  <a class="term-card" href="/Crossing/docs/classic-talk/">
+    <h3>📖 Classic Talk</h3>
+    <div class="term-subtitle">经典漫谈</div>
+    <p>技术之外的另一半。古典文学、哲学随笔、电影札记 —— 记录那些在深夜里让我安静下来的文字与画面。</p>
+    <span class="term-card-cta">进入 Classic Talk →</span>
   </a>
-  <a class="term-card" href="/Crossing/docs/c-lang/">
-    <h3>Term 3</h3>
-    <div class="term-subtitle">C 语言学习</div>
-    <p>以 K&R、《C 和指针》、《C 专家编程》为主线，系统推进 C 语言，为 Term 1/2 提供底层支撑。</p>
-    <span class="term-card-cta">进入 Term 3 →</span>
+  <a class="term-card" href="/Crossing/docs/wild-program/">
+    <h3>🛠 Wild Program</h3>
+    <div class="term-subtitle">野生程序</div>
+    <p>一些不为作业、不为绩点、只为好玩的程序。命令行小工具、算法可视化、临时起意的练手项目 —— 每个都附 GitHub 源码。</p>
+    <span class="term-card-cta">进入 Wild Program →</span>
   </a>
 </div>
 
