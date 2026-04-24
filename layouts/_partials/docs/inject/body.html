@@ -1,0 +1,46 @@
+{{- $docsPage    := site.GetPage "docs" -}}
+{{- $currentPage := . -}}
+
+<nav class="topnav">
+  <a class="topnav-brand" href="{{ site.Home.RelPermalink }}">Crossing</a>
+  <div class="topnav-terms">
+    {{- with $docsPage -}}
+    {{- range .Sections -}}
+    {{- $isActive := or (eq $currentPage .) (.IsAncestor $currentPage) -}}
+    <a href="{{ .RelPermalink }}"{{ if $isActive }} class="active"{{ end }}>Term {{ .Weight }}</a>
+    {{- end -}}
+    {{- end -}}
+  </div>
+  <div class="topnav-right">
+    {{ with $currentPage.Translations -}}
+    <div class="topnav-lang">
+      {{- range . -}}
+      <a href="{{ .Permalink }}" class="topnav-lang-link">{{ .Language.LanguageName }}</a>
+      {{- end -}}
+    </div>
+    {{- end }}
+    <button id="theme-toggle" class="theme-switch" aria-label="切换主题">
+      <span class="theme-switch-track"></span>
+      <span class="theme-switch-thumb"></span>
+    </button>
+  </div>
+</nav>
+
+<script>
+(function () {
+  var KEY = 'theme-preference';
+  var btn = document.getElementById('theme-toggle');
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem(KEY, theme);
+  }
+
+  if (btn) {
+    btn.addEventListener('click', function () {
+      var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+    });
+  }
+})();
+</script>

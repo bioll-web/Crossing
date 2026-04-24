@@ -1,0 +1,347 @@
+// ── 1. 深色 mixin（BookTheme=auto 时系统深色偏好的 fallback）────
+@mixin theme-dark {
+  --body-background: #1c1c20;
+  --body-background-tint: none;
+  --body-font-color: #e4e4e7;
+
+  --color-link: #818cf8;
+  --color-visited-link: #a78bfa;
+
+  --icon-filter: brightness(0) invert(1);
+
+  --gray-100: #1a1a1c;
+  --gray-200: #2e2e32;
+  --gray-500: #a1a1aa;
+
+  @include accent("default", #818cf8);
+  @include accent("note",      #60a5fa);
+  @include accent("tip",       #4ade80);
+  @include accent("important", #c084fc);
+  @include accent("warning",   #fb923c);
+  @include accent("caution",   #f87171);
+  @include accent("info",      #60a5fa);
+  @include accent("success",   #4ade80);
+  @include accent("danger",    #f87171);
+}
+
+// ── 2. CSS 变量双主题（优先级高于 @media prefers-color-scheme）──
+:root[data-theme="dark"] {
+  --body-background: #1c1c20;
+  --body-background-tint: none;
+  --body-font-color: #e4e4e7;
+  --color-link: #818cf8;
+  --color-visited-link: #a78bfa;
+  --icon-filter: brightness(0) invert(1);
+  --gray-100: #1a1a1c;
+  --gray-200: #2e2e32;
+  --gray-500: #a1a1aa;
+
+  --bg-sidebar:   #0c0c0e;
+  --border-color: #26262a;
+  --topbar-bg:    #0c0c0e;
+  --card-bg:      #161618;
+  --card-text:    #c4c4cc;
+  --active-bar:   #d4d4d8;
+  --hover-bg:     rgba(255, 255, 255, 0.05);
+  --lang-border:  #3f3f46;
+}
+
+:root[data-theme="light"] {
+  --body-background: #fafafa;
+  --body-background-tint: none;
+  --body-font-color: #18181b;
+  --color-link: #6366f1;
+  --color-visited-link: #7c3aed;
+  --icon-filter: none;
+  --gray-100: #f4f4f5;
+  --gray-200: #e4e4e7;
+  --gray-500: #71717a;
+
+  --bg-sidebar:   #f4f4f5;
+  --border-color: #d4d4d8;
+  --topbar-bg:    #ffffff;
+  --card-bg:      #ffffff;
+  --card-text:    #3f3f46;
+  --active-bar:   #71717a;
+  --hover-bg:     rgba(0, 0, 0, 0.05);
+  --lang-border:  #d4d4d8;
+}
+
+// ── 3. 桌面布局（56rem = hugo-book mobile-breakpoint）───────────
+@media screen and (min-width: 56rem) {
+
+  .container {
+    max-width: none;
+    margin: 0;
+  }
+
+  main {
+    padding: 0;
+    gap: 0;
+  }
+
+  .book-menu {
+    flex: 0 0 380px;
+  }
+
+  .book-menu-content {
+    left: 0;
+    top: 48px;
+    width: 380px;
+    background: var(--bg-sidebar, #0c0c0e);
+    border-right: 1px solid var(--border-color, #26262a);
+    z-index: 90;
+  }
+
+  // 覆盖主题在 ≥90rem 的 top:1rem（特异性 0,2,0 需匹配）
+  .book-menu .book-menu-content {
+    top: 48px;
+  }
+
+  .book-page {
+    flex: 1;
+    padding: 0;
+    min-height: 100vh;
+  }
+
+  .book-page .markdown {
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 2rem 3rem;
+  }
+
+  .book-page .book-footer {
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 1rem 3rem;
+  }
+
+  .book-menu-content nav ul a {
+    padding: 0.5rem 1rem;
+    line-height: 1.6;
+  }
+
+  .book-menu-content a:focus,
+  .book-menu-content a:focus-visible {
+    outline: none;
+    background: transparent;
+  }
+
+  .book-menu-content a.active {
+    background: transparent;
+    font-weight: 600;
+    color: var(--color-link);
+  }
+
+  .book-menu-content a.active::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--active-bar, #d4d4d8);
+  }
+
+  .book-toc {
+    display: none;
+  }
+
+  .book-menu-content .book-languages {
+    display: none;
+  }
+}
+
+// ── 4. 顶部导航栏 ──────────────────────────────────────────────
+body {
+  padding-top: 48px;
+  background-color: var(--body-background, #1c1c20);
+  color: var(--body-font-color, #e4e4e7);
+}
+
+.topnav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 48px;
+  z-index: 100;
+  background: var(--topbar-bg, #0c0c0e);
+  border-bottom: 1px solid var(--border-color, #26262a);
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  gap: 2rem;
+  box-sizing: border-box;
+}
+
+.topnav-brand {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--body-font-color, #e4e4e7);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.topnav-terms {
+  display: flex;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.topnav-terms a {
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  color: var(--gray-500, #a1a1aa);
+  text-decoration: none;
+  transition: color 0.15s, background 0.15s;
+}
+
+.topnav-terms a:hover {
+  color: var(--body-font-color, #e4e4e7);
+  background: var(--hover-bg, rgba(255, 255, 255, 0.05));
+}
+
+.topnav-terms a.active {
+  color: var(--color-link, #818cf8);
+  font-weight: 600;
+}
+
+.topnav-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.topnav-lang {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.topnav-lang-link {
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: var(--gray-500, #a1a1aa);
+  text-decoration: none;
+  border: 1px solid var(--lang-border, #3f3f46);
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.topnav-lang-link:hover {
+  color: var(--body-font-color, #e4e4e7);
+  border-color: var(--color-link, #818cf8);
+}
+
+.theme-switch {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.theme-switch-track {
+  position: absolute;
+  inset: 0;
+  background: #3f3f46;
+  border-radius: 11px;
+  transition: background 0.2s;
+}
+
+.theme-switch-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  background: #e4e4e7;
+  border-radius: 50%;
+  transition: left 0.2s, background 0.2s;
+}
+
+:root[data-theme="dark"] .theme-switch-thumb {
+  left: 21px;
+  background: #18181b;
+}
+
+:root[data-theme="dark"] .theme-switch-track {
+  background: #818cf8;
+}
+
+:root[data-theme="light"] .theme-switch-track {
+  background: #6366f1;
+}
+
+:root[data-theme="light"] .theme-switch-thumb {
+  left: 3px;
+  background: #ffffff;
+}
+
+// ── 5. 首页 Term 卡片 ──────────────────────────────────────────
+.term-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0 3rem 0;
+}
+
+.term-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  background: var(--card-bg, #161618);
+  border: 1px solid var(--border-color, #26262a);
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s, transform 0.15s;
+  min-height: 180px;
+}
+
+.term-card:hover {
+  border-color: var(--color-link, #818cf8);
+  transform: translateY(-2px);
+}
+
+.term-card h3 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--body-font-color, #e4e4e7);
+}
+
+.term-card .term-subtitle {
+  font-size: 0.95rem;
+  color: var(--gray-500, #a1a1aa);
+  margin-bottom: 1rem;
+}
+
+.term-card p {
+  margin: 0 0 1.5rem 0;
+  color: var(--card-text, #c4c4cc);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.term-card-cta {
+  margin-top: auto;
+  align-self: flex-start;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid var(--color-link, #818cf8);
+  border-radius: 4px;
+  color: var(--color-link, #818cf8);
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.term-card:hover .term-card-cta {
+  background: var(--color-link, #818cf8);
+  color: var(--topbar-bg, #0c0c0e);
+}

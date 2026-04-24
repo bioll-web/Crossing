@@ -1,0 +1,12 @@
+---
+title: "Ch.6 Synchronization"
+weight: 6
+---
+
+# Chapter 6 — Synchronization
+
+临界区、Peterson 算法、锁、信号量、条件变量、管程。
+
+关键直觉：**所有并发 bug 的根源都是"两步操作之间被打断了"**。同步机制的本质都是"让某些操作变得不可打断"。
+
+> 本章笔记待补充。

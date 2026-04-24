@@ -1,9 +1,27 @@
-baseURL = 'https://bioll-web.github.io/OS-tech-blog/'
-languageCode = 'zh-cn'
-title = 'bioll的技术博客'
+baseURL = 'https://bioll-web.github.io/crossing/'
+title = 'Crossing'
 theme = 'hugo-book'
+defaultContentLanguage = 'zh'
+
+[languages]
+  [languages.zh]
+    languageName = '简体中文'
+    contentDir = 'content/zh'
+    weight = 1
+  [languages.en]
+    languageName = 'English'
+    contentDir = 'content/en'
+    weight = 2
 
 [params]
   BookTheme = 'dark'
   BookToC = true
   BookSection = 'docs'
+  BookSearch = true
+  BookMenuBundle = false
+  BookCollapseSection = true
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

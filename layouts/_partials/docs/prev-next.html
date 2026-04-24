@@ -1,0 +1,38 @@
+{{- $currentPage := . -}}
+{{- $docsPage := .Site.GetPage "docs" -}}
+{{- $targetSection := false -}}
+
+{{- with $docsPage -}}
+  {{- range .Sections -}}
+    {{- if or (eq $currentPage .) (.IsAncestor $currentPage) -}}
+      {{- $targetSection = . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- with $targetSection -}}
+  {{ $pages := partialCached "docs/prev-next-cache" .Pages .RelPermalink }}
+  {{ $prev := $pages.Next $currentPage }}
+  {{ $next := $pages.Prev $currentPage }}
+
+  {{- if or $prev $next }}
+  <div class="flex flex-wrap justify-between">
+    <span>
+    {{ with $prev }}
+      <a href="{{ .RelPermalink }}" class="flex align-center">
+        <img src="{{ partial "docs/icon" "backward" }}" class="book-icon" alt="{{ partial "docs/text/i18n" "Backward" }}" />
+        <span>{{ partial "docs/title" . }}</span>
+      </a>
+    {{ end }}
+    </span>
+    <span>
+    {{ with $next }}
+      <a href="{{ .RelPermalink }}" class="flex align-center">
+        <span>{{ partial "docs/title" . }}</span>
+        <img src="{{ partial "docs/icon" "forward" }}" class="book-icon" alt="{{ partial "docs/text/i18n" "Forward" }}" />
+      </a>
+    {{ end }}
+    </span>
+  </div>
+  {{ end -}}
+{{- end -}}
