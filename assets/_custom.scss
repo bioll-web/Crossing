@@ -67,8 +67,27 @@
   --lang-border:  #d4d4d8;
 }
 
-// ── 3. 桌面布局（56rem = hugo-book mobile-breakpoint）───────────
-@media screen and (min-width: 56rem) {
+// ── 3. 平板内容居中（601px-1199px，无侧边栏）────────────────────
+@media screen and (min-width: 601px) and (max-width: 1199px) {
+  .book-page {
+    padding: 0;
+  }
+
+  .book-page .markdown {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem;
+  }
+
+  .book-page .book-footer {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+  }
+}
+
+// ── 4. 桌面布局（75rem = 1200px，侧边栏仅在此处显示）────────────
+@media screen and (min-width: 75rem) {
 
   .container {
     max-width: none;
@@ -152,7 +171,7 @@
   }
 }
 
-// ── 4. 顶部导航栏 ──────────────────────────────────────────────
+// ── 5. 顶部导航栏 ──────────────────────────────────────────────
 body {
   padding-top: 56px;
   background-color: var(--body-background, #1c1c20);
@@ -282,7 +301,7 @@ body {
   background: var(--hover-bg, rgba(255, 255, 255, 0.05));
 }
 
-// ── 5. 首页 Term 卡片 ──────────────────────────────────────────
+// ── 6. 首页 Term 卡片 ──────────────────────────────────────────
 .term-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -345,7 +364,7 @@ body {
   color: var(--topbar-bg, #0c0c0e);
 }
 
-// ── 6. 顶部下拉导航 ────────────────────────────────────────────
+// ── 7. 顶部下拉导航 ────────────────────────────────────────────
 .crossing-topnav {
   display: flex;
   gap: 0.25rem;

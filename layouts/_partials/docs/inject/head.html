@@ -96,24 +96,56 @@
 }
 
 /* ==========================================
- * 移动端导航(仅 ≤768px 生效)
- * 桌面端完全不受影响
+ * 响应式导航
+ * ≤600px        手机   — 汉堡 + 搜索图标
+ * 601-1199px    平板   — 竖屏走手机导航，横屏走桌面导航（均无侧边栏）
+ * ≥1200px       桌面   — 侧边栏 + 顶部导航项（_custom.scss 控制）
  * ========================================== */
 
-/* 默认隐藏汉堡、抽屉、搜索按钮,桌面端不显示 */
+/* 默认隐藏（各断点按需覆盖） */
+.mobile-nav-toggle { display: none; }
+.mobile-nav-drawer  { display: none; }
+.mobile-search-btn  { display: none; }
+.mobile-search-bar  { display: none; }
+
+/* ── 汉堡按钮基础样式（display 由断点控制）── */
 .mobile-nav-toggle {
-  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  width: 44px;
+  height: 44px;
 }
-.mobile-nav-drawer {
-  display: none;
+.mobile-nav-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--body-font-color);
+  transition: transform 0.3s, opacity 0.3s;
 }
+.mobile-nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.mobile-nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.mobile-nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── 搜索按钮基础样式 ── */
 .mobile-search-btn {
-  display: none;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  width: 44px;
+  height: 44px;
+  color: var(--body-font-color);
 }
-.mobile-search-bar {
-  display: none;
-}
-/* 搜索展开条激活时全断点通用(手机/平板均需) */
+
+/* ── 搜索展开条（激活后全断点可用）── */
 .mobile-search-bar[aria-hidden="false"] {
   display: flex;
   flex-direction: column;
@@ -127,314 +159,226 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   z-index: 999;
 }
+.mobile-search-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+.mobile-search-input {
+  flex: 1;
+  border: 1px solid rgba(128,128,128,0.3);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 15px;
+  background: var(--body-background);
+  color: var(--body-font-color);
+  outline: none;
+}
+.mobile-search-close {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--body-font-color);
+  padding: 4px 8px;
+  min-width: 36px;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mobile-search-results {
+  list-style: none;
+  margin: 8px 0 0 0;
+  padding: 0;
+  max-height: 55vh;
+  overflow-y: auto;
+  width: 100%;
+}
+.mobile-search-results:empty { display: none; }
+.mobile-search-results li {
+  list-style: none;
+  margin: 0;
+  border-bottom: 1px solid rgba(128,128,128,0.1);
+}
+.mobile-search-results li a {
+  display: block;
+  padding: 10px 12px 4px;
+  color: var(--body-font-color);
+  text-decoration: none;
+  font-size: 14px;
+}
+.mobile-search-results li small {
+  display: block;
+  padding: 0 12px 10px;
+  font-size: 12px;
+  color: var(--gray-500);
+}
+.mobile-search-results li:hover { background: var(--hover-bg); }
 
+/* ── 抽屉（激活后全断点可用）── */
+.mobile-nav-drawer[aria-hidden="false"] {
+  display: block;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 1000;
+}
+.mobile-nav-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  animation: crossing-fadeIn 0.2s ease-out;
+}
+.mobile-nav-content {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 80%;
+  max-width: 320px;
+  background: var(--body-background);
+  padding: 60px 16px 20px;
+  box-shadow: -2px 0 12px rgba(0,0,0,0.15);
+  animation: crossing-slideIn 0.3s ease-out;
+  overflow-y: auto;
+}
+.mobile-nav-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 14px 12px;
+  color: var(--body-font-color);
+  text-decoration: none;
+  font-size: 16px;
+  border-bottom: 1px solid rgba(128,128,128,0.15);
+  min-height: 44px;
+  background: transparent;
+  border-left: none; border-right: none; border-top: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+}
+.mobile-nav-sublinks {
+  display: none;
+  padding-left: 16px;
+}
+.mobile-nav-arrow-btn[aria-expanded="true"] .mobile-nav-arrow { transform: rotate(180deg); }
+.mobile-nav-arrow {
+  display: inline-block;
+  transition: transform 0.2s;
+  font-size: 12px;
+}
+.mobile-nav-sublinks a {
+  display: block;
+  padding: 12px;
+  color: var(--body-font-color);
+  text-decoration: none;
+  font-size: 14px;
+  min-height: 44px;
+  border-bottom: 1px solid rgba(128,128,128,0.08);
+}
+.mobile-nav-expandable-row {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(128,128,128,0.15);
+}
+.mobile-nav-link-text {
+  flex: 1;
+  padding: 14px 12px;
+  color: var(--body-font-color);
+  text-decoration: none;
+  font-size: 16px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+.mobile-nav-arrow-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0 14px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  color: var(--body-font-color);
+  font-family: inherit;
+}
+
+@keyframes crossing-fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes crossing-slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+/* ══════════════════════════════════════
+   手机（≤600px）
+══════════════════════════════════════ */
 @media (max-width: 600px) {
-  /* 隐藏桌面版主菜单链接,保留 English/GitHub/主题切换 */
-  .crossing-topnav .nav-item {
-    display: none !important;
-  }
+  .crossing-topnav .nav-item { display: none !important; }
 
-  /* 显示汉堡按钮 */
-  .mobile-nav-toggle {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-    width: 44px;
-    height: 44px;
-    margin-left: 8px;
-  }
+  .mobile-nav-toggle { display: flex; margin-left: 8px; }
+  .mobile-search-btn { display: flex; }
 
-  .mobile-nav-toggle span {
-    display: block;
-    width: 22px;
-    height: 2px;
-    background: var(--body-font-color);
-    transition: transform 0.3s, opacity 0.3s;
-  }
-
-  /* 汉堡变 X */
-  .mobile-nav-toggle[aria-expanded="true"] span:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-  }
-  .mobile-nav-toggle[aria-expanded="true"] span:nth-child(2) {
-    opacity: 0;
-  }
-  .mobile-nav-toggle[aria-expanded="true"] span:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
-  }
-
-  /* 抽屉 */
-  .mobile-nav-drawer[aria-hidden="false"] {
-    display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1000;
-  }
-
-  .mobile-nav-backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.4);
-    animation: crossing-fadeIn 0.2s ease-out;
-  }
-
-  .mobile-nav-content {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 80%;
-    max-width: 320px;
-    background: var(--body-background);
-    padding: 60px 16px 20px;
-    box-shadow: -2px 0 12px rgba(0,0,0,0.15);
-    animation: crossing-slideIn 0.3s ease-out;
-    overflow-y: auto;
-  }
-
-  .mobile-nav-link {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    padding: 14px 12px;
-    color: var(--body-font-color);
-    text-decoration: none;
-    font-size: 16px;
-    border-bottom: 1px solid rgba(128,128,128,0.15);
-    min-height: 44px;
-    background: transparent;
-    border-left: none;
-    border-right: none;
-    border-top: none;
-    cursor: pointer;
-    text-align: left;
-    font-family: inherit;
-  }
-
-  .mobile-nav-sublinks {
-    display: none;
-    padding-left: 16px;
-  }
-
-  .mobile-nav-arrow-btn[aria-expanded="true"] .mobile-nav-arrow {
-    transform: rotate(180deg);
-  }
-
-  .mobile-nav-arrow {
-    display: inline-block;
-    transition: transform 0.2s;
-    font-size: 12px;
-  }
-
-  .mobile-nav-sublinks a {
-    display: block;
-    padding: 12px;
-    color: var(--body-font-color);
-    text-decoration: none;
-    font-size: 14px;
-    min-height: 44px;
-    border-bottom: 1px solid rgba(128,128,128,0.08);
-  }
-
-  /* Tech Frontier 分离行:左链接 + 右箭头按钮 */
-  .mobile-nav-expandable-row {
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid rgba(128,128,128,0.15);
-  }
-
-  .mobile-nav-link-text {
-    flex: 1;
-    padding: 14px 12px;
-    color: var(--body-font-color);
-    text-decoration: none;
-    font-size: 16px;
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-  }
-
-  .mobile-nav-arrow-btn {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0 14px;
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-    color: var(--body-font-color);
-    font-family: inherit;
-  }
-
-  /* 首页卡片压缩 */
-  .term-card {
-    padding: 16px 14px;
-  }
-
-  .term-card h3 {
-    font-size: 1.1rem;
-  }
-
-  .term-card p {
-    font-size: 0.9rem;
-    line-height: 1.5;
-  }
-
-  .term-card-cta {
-    padding: 6px 14px;
-    font-size: 0.85rem;
-  }
-
-  /* 顶部栏右侧图标间距统一 */
-  .topnav-right {
-    gap: 0;
-  }
-
+  /* 图标间距统一 */
+  .topnav-right { gap: 0; }
   .topnav-right .topnav-icon-link,
   .topnav-right #theme-toggle,
   .topnav-right .mobile-search-btn,
   .topnav-right .mobile-nav-toggle {
-    width: 36px;
-    height: 36px;
+    width: 36px; height: 36px;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    margin: 0;
+    align-items: center; justify-content: center;
+    padding: 0; margin: 0;
   }
+  .topnav-lang { margin: 0 4px; }
 
-  .topnav-lang {
-    margin: 0 4px;
-  }
-
-  .mobile-search-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-  }
-
-  .mobile-search-input {
-    flex: 1;
-    border: 1px solid rgba(128,128,128,0.3);
-    border-radius: 6px;
-    padding: 8px 12px;
-    font-size: 15px;
-    background: var(--body-background);
-    color: var(--body-font-color);
-    outline: none;
-  }
-
-  .mobile-search-close {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-    color: var(--body-font-color);
-    padding: 4px 8px;
-    min-width: 36px;
-    min-height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* 搜索结果:渲染在搜索条内部,彻底避开侧边栏 transform 包含块 */
-  .mobile-search-results {
-    list-style: none;
-    margin: 8px 0 0 0;
-    padding: 0;
-    max-height: 55vh;
-    overflow-y: auto;
-    width: 100%;
-  }
-
-  .mobile-search-results:empty {
-    display: none;
-  }
-
-  .mobile-search-results li {
-    list-style: none;
-    margin: 0;
-    border-bottom: 1px solid rgba(128,128,128,0.1);
-  }
-
-  .mobile-search-results li a {
-    display: block;
-    padding: 10px 12px 4px;
-    color: var(--body-font-color);
-    text-decoration: none;
-    font-size: 14px;
-  }
-
-  .mobile-search-results li small {
-    display: block;
-    padding: 0 12px 10px;
-    font-size: 12px;
-    color: var(--gray-500);
-  }
-
-  .mobile-search-results li:hover {
-    background: var(--hover-bg);
-  }
+  /* 首页卡片压缩 */
+  .term-card { padding: 16px 14px; }
+  .term-card h3 { font-size: 1.1rem; }
+  .term-card p { font-size: 0.9rem; line-height: 1.5; }
+  .term-card-cta { padding: 6px 14px; font-size: 0.85rem; }
 
   /* 隐藏 Hugo Book 原生移动端元素 */
   label[for="toc-control"] { display: none !important; }
   label[for="menu-control"] { display: none !important; }
   .book-languages { display: none !important; }
   .book-header h3 { display: none !important; }
-
-  /* 移动端搜索图标按钮 */
-  .mobile-search-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-    width: 44px;
-    height: 44px;
-    color: var(--body-font-color);
-  }
-
-  @keyframes crossing-fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
-  @keyframes crossing-slideIn {
-    from { transform: translateX(100%); }
-    to { transform: translateX(0); }
-  }
 }
 
-/* 平板竖屏：走手机样式 */
-@media (min-width: 601px) and (max-width: 1199px) and (orientation: portrait) {
+/* ══════════════════════════════════════
+   平板/窄桌面（601-1199px）：无论横竖屏都隐藏侧边栏
+══════════════════════════════════════ */
+@media (min-width: 601px) and (max-width: 1199px) {
   .book-menu { display: none !important; }
   label[for="menu-control"] { display: none !important; }
+  label[for="toc-control"]  { display: none !important; }
+  .book-languages { display: none !important; }
+  .book-header h3 { display: none !important; }
   .book-page {
     margin-left: 0 !important;
     padding-left: 0 !important;
     min-width: unset !important;
     width: 100% !important;
   }
-  .mobile-search-btn { display: flex !important; }
-  .mobile-nav-toggle { display: flex !important; }
-  .crossing-topnav .nav-item { display: none !important; }
 }
 
-/* 平板横屏：走桌面样式，什么都不改 */
+/* 平板竖屏：走手机导航（汉堡 + 搜索，隐藏顶部导航项） */
+@media (min-width: 601px) and (max-width: 1199px) and (orientation: portrait) {
+  .crossing-topnav .nav-item { display: none !important; }
+  .mobile-search-btn { display: flex !important; }
+  .mobile-nav-toggle { display: flex !important; }
+  /* 平板竖屏图标间距与手机一致 */
+  .topnav-right { gap: 0; }
+  .topnav-right .topnav-icon-link,
+  .topnav-right #theme-toggle,
+  .topnav-right .mobile-search-btn,
+  .topnav-right .mobile-nav-toggle {
+    width: 36px; height: 36px;
+    display: flex;
+    align-items: center; justify-content: center;
+    padding: 0; margin: 0;
+  }
+  .topnav-lang { margin: 0 4px; }
+}
+
+/* 平板横屏：走桌面导航（顶部导航项可见，隐藏手机专属按钮） */
 @media (min-width: 601px) and (max-width: 1199px) and (orientation: landscape) {
   .mobile-search-btn { display: none !important; }
   .mobile-nav-toggle { display: none !important; }
