@@ -1,0 +1,13 @@
+{
+  "name": "crossing-pdf-gen",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "generate-pdfs": "node scripts/generate-pdfs.js"
+  },
+  "devDependencies": {
+    "glob": "^10.4.5",
+    "puppeteer": "^23.0.0",
+    "serve-handler": "^6.1.5"
+  }
+}

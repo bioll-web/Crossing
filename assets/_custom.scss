@@ -421,3 +421,38 @@ body {
 .nav-dropdown.active .dropdown-menu {
   display: block;
 }
+
+// ── 8. PDF 下载按钮 ────────────────────────────────────────────
+.pdf-download-wrapper {
+  margin: 0.5rem 0 1.5rem 0;
+}
+
+.pdf-download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.875rem;
+  background: transparent;
+  border: 1px solid var(--color-link, #6366f1);
+  border-radius: 6px;
+  color: var(--color-link, #6366f1);
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+
+  &:hover {
+    background: var(--color-link, #6366f1);
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+@media print {
+  .pdf-download-wrapper { display: none !important; }
+  .topnav { display: none !important; }
+  .book-menu { display: none !important; }
+  .book-header { display: none !important; }
+  .book-footer { display: none !important; }
+  .book-page { margin: 0 !important; padding: 0 !important; }
+  .book-page .markdown { max-width: none !important; padding: 1cm !important; }
+}

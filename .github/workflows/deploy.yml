@@ -23,6 +23,21 @@ jobs:
           extended: true
       - name: Build
         run: hugo --minify
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Chinese fonts
+        run: sudo apt-get install -y fonts-noto-cjk
+
+      - name: Install PDF generator dependencies
+        run: npm install
+
+      - name: Generate PDFs
+        run: npm run generate-pdfs
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
