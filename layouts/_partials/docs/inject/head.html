@@ -113,6 +113,20 @@
 .mobile-search-bar {
   display: none;
 }
+/* 搜索展开条激活时全断点通用(手机/平板均需) */
+.mobile-search-bar[aria-hidden="false"] {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--body-background);
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(128,128,128,0.2);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 999;
+}
 
 @media (max-width: 600px) {
   /* 隐藏桌面版主菜单链接,保留 English/GitHub/主题切换 */
@@ -303,21 +317,6 @@
     margin: 0 4px;
   }
 
-  /* 搜索展开条(紧贴顶部栏下方,列方向) */
-  .mobile-search-bar[aria-hidden="false"] {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: var(--body-background);
-    padding: 10px 16px;
-    border-bottom: 1px solid rgba(128,128,128,0.2);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    z-index: 999;
-  }
-
   .mobile-search-row {
     display: flex;
     align-items: center;
@@ -417,6 +416,38 @@
   @keyframes crossing-slideIn {
     from { transform: translateX(100%); }
     to { transform: translateX(0); }
+  }
+}
+
+@media (min-width: 601px) and (max-width: 1199px) {
+  /* 隐藏侧边栏和侧边栏汉堡按钮 */
+  .book-menu {
+    display: none !important;
+  }
+  label[for="menu-control"] {
+    display: none !important;
+  }
+  /* 内容区居中 */
+  .book-page {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    min-width: unset !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+  .book-content {
+    max-width: 720px;
+    width: 100%;
+    padding: 0 24px;
+  }
+  /* 平板端显示搜索图标（和手机共用 .mobile-search-btn） */
+  .mobile-search-btn {
+    display: flex !important;
+  }
+  /* 平板端隐藏汉堡菜单按钮 */
+  .mobile-nav-toggle {
+    display: none !important;
   }
 }
 </style>
