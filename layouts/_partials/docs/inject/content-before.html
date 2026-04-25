@@ -13,4 +13,7 @@
   </a>
 </div>
   {{- end -}}
+{{- else -}}
+  {{- /* 章节页 / 标签页 / 首页等聚合页：标记跳过，不生成 PDF */}}
+<meta name="no-pdf" content="true">
 {{- end -}}
