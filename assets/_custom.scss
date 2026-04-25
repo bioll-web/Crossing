@@ -67,27 +67,8 @@
   --lang-border:  #d4d4d8;
 }
 
-// ── 3. 平板内容居中（601px-1199px，无侧边栏）────────────────────
-@media screen and (min-width: 601px) and (max-width: 1199px) {
-  .book-page {
-    padding: 0;
-  }
-
-  .book-page .markdown {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 1.5rem 2rem;
-  }
-
-  .book-page .book-footer {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 1rem 2rem;
-  }
-}
-
-// ── 4. 桌面布局（75rem = 1200px，侧边栏仅在此处显示）────────────
-@media screen and (min-width: 75rem) {
+// ── 3. 桌面布局（60rem = 960px，单一断点）───────────────────────
+@media screen and (min-width: 60rem) {
 
   .container {
     max-width: none;
@@ -100,13 +81,13 @@
   }
 
   .book-menu {
-    flex: 0 0 380px;
+    flex: 0 0 240px;
   }
 
   .book-menu-content {
     left: 0;
     top: 56px;
-    width: 380px;
+    width: 240px;
     background: var(--bg-sidebar, #0c0c0e);
     border-right: 1px solid var(--border-color, #26262a);
     z-index: 90;
@@ -119,6 +100,7 @@
 
   .book-page {
     flex: 1;
+    min-width: 0;
     padding: 0;
     min-height: 100vh;
   }

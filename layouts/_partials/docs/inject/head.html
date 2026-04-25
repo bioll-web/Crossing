@@ -96,10 +96,9 @@
 }
 
 /* ==========================================
- * 响应式导航
- * ≤600px        手机   — 汉堡 + 搜索图标
- * 601-1199px    平板   — 竖屏走手机导航，横屏走桌面导航（均无侧边栏）
- * ≥1200px       桌面   — 侧边栏 + 顶部导航项（_custom.scss 控制）
+ * 响应式导航（单一断点 960px）
+ * < 960px  → 移动端：汉堡 + 搜索图标 + 无侧边栏
+ * ≥ 960px  → 桌面端：顶部导航项 + 侧边栏（_custom.scss 控制）
  * ========================================== */
 
 /* 默认隐藏（各断点按需覆盖） */
@@ -308,13 +307,16 @@
 @keyframes crossing-slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
 
 /* ══════════════════════════════════════
-   手机（≤600px）
+   移动端（< 960px）：手机 + iPad 竖屏
 ══════════════════════════════════════ */
-@media (max-width: 600px) {
+@media (max-width: 59.99rem) {
+  /* 隐藏桌面顶部导航项，显示汉堡 + 搜索 */
   .crossing-topnav .nav-item { display: none !important; }
-
   .mobile-nav-toggle { display: flex; margin-left: 8px; }
   .mobile-search-btn { display: flex; }
+
+  /* 隐藏侧边栏（覆盖 Hugo Book 在 >56rem 显示侧边栏的默认行为） */
+  .book-menu { display: none !important; }
 
   /* 图标间距统一 */
   .topnav-right { gap: 0; }
@@ -340,48 +342,6 @@
   label[for="menu-control"] { display: none !important; }
   .book-languages { display: none !important; }
   .book-header h3 { display: none !important; }
-}
-
-/* ══════════════════════════════════════
-   平板/窄桌面（601-1199px）：无论横竖屏都隐藏侧边栏
-══════════════════════════════════════ */
-@media (min-width: 601px) and (max-width: 1199px) {
-  .book-menu { display: none !important; }
-  label[for="menu-control"] { display: none !important; }
-  label[for="toc-control"]  { display: none !important; }
-  .book-languages { display: none !important; }
-  .book-header h3 { display: none !important; }
-  .book-page {
-    margin-left: 0 !important;
-    padding-left: 0 !important;
-    min-width: unset !important;
-    width: 100% !important;
-  }
-}
-
-/* 平板竖屏：走手机导航（汉堡 + 搜索，隐藏顶部导航项） */
-@media (min-width: 601px) and (max-width: 1199px) and (orientation: portrait) {
-  .crossing-topnav .nav-item { display: none !important; }
-  .mobile-search-btn { display: flex !important; }
-  .mobile-nav-toggle { display: flex !important; }
-  /* 平板竖屏图标间距与手机一致 */
-  .topnav-right { gap: 0; }
-  .topnav-right .topnav-icon-link,
-  .topnav-right #theme-toggle,
-  .topnav-right .mobile-search-btn,
-  .topnav-right .mobile-nav-toggle {
-    width: 36px; height: 36px;
-    display: flex;
-    align-items: center; justify-content: center;
-    padding: 0; margin: 0;
-  }
-  .topnav-lang { margin: 0 4px; }
-}
-
-/* 平板横屏：走桌面导航（顶部导航项可见，隐藏手机专属按钮） */
-@media (min-width: 601px) and (max-width: 1199px) and (orientation: landscape) {
-  .mobile-search-btn { display: none !important; }
-  .mobile-nav-toggle { display: none !important; }
 }
 </style>
 
