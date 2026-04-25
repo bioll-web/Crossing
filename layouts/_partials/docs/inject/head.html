@@ -419,36 +419,25 @@
   }
 }
 
-@media (min-width: 601px) and (max-width: 1199px) {
-  /* 隐藏侧边栏和侧边栏汉堡按钮 */
-  .book-menu {
-    display: none !important;
-  }
-  label[for="menu-control"] {
-    display: none !important;
-  }
-  /* 内容区居中 */
+/* 平板竖屏：走手机样式 */
+@media (min-width: 601px) and (max-width: 1199px) and (orientation: portrait) {
+  .book-menu { display: none !important; }
+  label[for="menu-control"] { display: none !important; }
   .book-page {
     margin-left: 0 !important;
     padding-left: 0 !important;
     min-width: unset !important;
     width: 100% !important;
-    display: flex !important;
-    justify-content: center !important;
   }
-  .book-content {
-    max-width: 720px;
-    width: 100%;
-    padding: 0 24px;
-  }
-  /* 平板端显示搜索图标（和手机共用 .mobile-search-btn） */
-  .mobile-search-btn {
-    display: flex !important;
-  }
-  /* 平板端隐藏汉堡菜单按钮 */
-  .mobile-nav-toggle {
-    display: none !important;
-  }
+  .mobile-search-btn { display: flex !important; }
+  .mobile-nav-toggle { display: flex !important; }
+  .crossing-topnav .nav-item { display: none !important; }
+}
+
+/* 平板横屏：走桌面样式，什么都不改 */
+@media (min-width: 601px) and (max-width: 1199px) and (orientation: landscape) {
+  .mobile-search-btn { display: none !important; }
+  .mobile-nav-toggle { display: none !important; }
 }
 </style>
 
