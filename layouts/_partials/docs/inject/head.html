@@ -1,3 +1,5 @@
+<link rel="manifest" href="/Crossing/manifest.json">
+
 <script>
 (function () {
   var saved = localStorage.getItem('theme-preference');
@@ -92,6 +94,331 @@
   margin-top: 8px;
   letter-spacing: 0.15em;
 }
+
+/* ==========================================
+ * 移动端导航(仅 ≤768px 生效)
+ * 桌面端完全不受影响
+ * ========================================== */
+
+/* 默认隐藏汉堡、抽屉、搜索按钮,桌面端不显示 */
+.mobile-nav-toggle {
+  display: none;
+}
+.mobile-nav-drawer {
+  display: none;
+}
+.mobile-search-btn {
+  display: none;
+}
+.mobile-search-bar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  /* 隐藏桌面版主菜单链接,保留 English/GitHub/主题切换 */
+  .crossing-topnav .nav-item {
+    display: none !important;
+  }
+
+  /* 显示汉堡按钮 */
+  .mobile-nav-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    width: 44px;
+    height: 44px;
+    margin-left: 8px;
+  }
+
+  .mobile-nav-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--body-font-color);
+    transition: transform 0.3s, opacity 0.3s;
+  }
+
+  /* 汉堡变 X */
+  .mobile-nav-toggle[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .mobile-nav-toggle[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+  }
+  .mobile-nav-toggle[aria-expanded="true"] span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* 抽屉 */
+  .mobile-nav-drawer[aria-hidden="false"] {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+  }
+
+  .mobile-nav-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    animation: crossing-fadeIn 0.2s ease-out;
+  }
+
+  .mobile-nav-content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 80%;
+    max-width: 320px;
+    background: var(--body-background);
+    padding: 60px 16px 20px;
+    box-shadow: -2px 0 12px rgba(0,0,0,0.15);
+    animation: crossing-slideIn 0.3s ease-out;
+    overflow-y: auto;
+  }
+
+  .mobile-nav-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 14px 12px;
+    color: var(--body-font-color);
+    text-decoration: none;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(128,128,128,0.15);
+    min-height: 44px;
+    background: transparent;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+  }
+
+  .mobile-nav-sublinks {
+    display: none;
+    padding-left: 16px;
+  }
+
+  .mobile-nav-arrow-btn[aria-expanded="true"] .mobile-nav-arrow {
+    transform: rotate(180deg);
+  }
+
+  .mobile-nav-arrow {
+    display: inline-block;
+    transition: transform 0.2s;
+    font-size: 12px;
+  }
+
+  .mobile-nav-sublinks a {
+    display: block;
+    padding: 12px;
+    color: var(--body-font-color);
+    text-decoration: none;
+    font-size: 14px;
+    min-height: 44px;
+    border-bottom: 1px solid rgba(128,128,128,0.08);
+  }
+
+  /* Tech Frontier 分离行:左链接 + 右箭头按钮 */
+  .mobile-nav-expandable-row {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(128,128,128,0.15);
+  }
+
+  .mobile-nav-link-text {
+    flex: 1;
+    padding: 14px 12px;
+    color: var(--body-font-color);
+    text-decoration: none;
+    font-size: 16px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  .mobile-nav-arrow-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0 14px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    color: var(--body-font-color);
+    font-family: inherit;
+  }
+
+  /* 首页卡片压缩 */
+  .term-card {
+    padding: 16px 14px;
+  }
+
+  .term-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .term-card p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .term-card-cta {
+    padding: 6px 14px;
+    font-size: 0.85rem;
+  }
+
+  /* 顶部栏右侧图标间距统一 */
+  .topnav-right {
+    gap: 0;
+  }
+
+  .topnav-right .topnav-icon-link,
+  .topnav-right #theme-toggle,
+  .topnav-right .mobile-search-btn,
+  .topnav-right .mobile-nav-toggle {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+  }
+
+  .topnav-lang {
+    margin: 0 4px;
+  }
+
+  /* 搜索展开条(紧贴顶部栏下方,列方向) */
+  .mobile-search-bar[aria-hidden="false"] {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--body-background);
+    padding: 10px 16px;
+    border-bottom: 1px solid rgba(128,128,128,0.2);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    z-index: 999;
+  }
+
+  .mobile-search-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .mobile-search-input {
+    flex: 1;
+    border: 1px solid rgba(128,128,128,0.3);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 15px;
+    background: var(--body-background);
+    color: var(--body-font-color);
+    outline: none;
+  }
+
+  .mobile-search-close {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--body-font-color);
+    padding: 4px 8px;
+    min-width: 36px;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* 搜索结果:渲染在搜索条内部,彻底避开侧边栏 transform 包含块 */
+  .mobile-search-results {
+    list-style: none;
+    margin: 8px 0 0 0;
+    padding: 0;
+    max-height: 55vh;
+    overflow-y: auto;
+    width: 100%;
+  }
+
+  .mobile-search-results:empty {
+    display: none;
+  }
+
+  .mobile-search-results li {
+    list-style: none;
+    margin: 0;
+    border-bottom: 1px solid rgba(128,128,128,0.1);
+  }
+
+  .mobile-search-results li a {
+    display: block;
+    padding: 10px 12px 4px;
+    color: var(--body-font-color);
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .mobile-search-results li small {
+    display: block;
+    padding: 0 12px 10px;
+    font-size: 12px;
+    color: var(--gray-500);
+  }
+
+  .mobile-search-results li:hover {
+    background: var(--hover-bg);
+  }
+
+  /* 隐藏 Hugo Book 原生移动端元素 */
+  label[for="toc-control"] { display: none !important; }
+  label[for="menu-control"] { display: none !important; }
+  .book-languages { display: none !important; }
+  .book-header h3 { display: none !important; }
+
+  /* 移动端搜索图标按钮 */
+  .mobile-search-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    width: 44px;
+    height: 44px;
+    color: var(--body-font-color);
+  }
+
+  @keyframes crossing-fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes crossing-slideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+  }
+}
 </style>
 
 <div id="crossing-splash">
@@ -148,5 +475,122 @@
   setTimeout(function(){
     sp.style.display = 'none';
   }, 4300);
+})();
+</script>
+
+<script>
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    var toggle = document.querySelector('.mobile-nav-toggle');
+    var drawer = document.querySelector('.mobile-nav-drawer');
+    var backdrop = document.querySelector('.mobile-nav-backdrop');
+    var expandable = document.querySelector('.mobile-nav-arrow-btn');
+
+    if (!toggle || !drawer) return;
+
+    function openDrawer() {
+      toggle.setAttribute('aria-expanded', 'true');
+      drawer.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeDrawer() {
+      toggle.setAttribute('aria-expanded', 'false');
+      drawer.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    toggle.addEventListener('click', function() {
+      if (toggle.getAttribute('aria-expanded') === 'true') {
+        closeDrawer();
+      } else {
+        openDrawer();
+      }
+    });
+
+    if (backdrop) {
+      backdrop.addEventListener('click', closeDrawer);
+    }
+
+    drawer.querySelectorAll('a').forEach(function(link) {
+      link.addEventListener('click', closeDrawer);
+    });
+
+    if (expandable) {
+      expandable.addEventListener('click', function() {
+        var isOpen = expandable.getAttribute('aria-expanded') === 'true';
+        expandable.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+        var sublinks = expandable.closest('.mobile-nav-expandable-row').nextElementSibling;
+        sublinks.style.display = isOpen ? 'none' : 'block';
+      });
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        if (drawer.getAttribute('aria-hidden') === 'false') closeDrawer();
+        closeMobileSearch();
+      }
+    });
+
+    // 移动端搜索展开条
+    var mobileSearchBtn = document.querySelector('.mobile-search-btn');
+    var mobileSearchBar = document.querySelector('.mobile-search-bar');
+    var mobileSearchInput = document.querySelector('.mobile-search-input');
+    var mobileSearchClose = document.querySelector('.mobile-search-close');
+
+    function openMobileSearch() {
+      if (!mobileSearchBar) return;
+      mobileSearchBar.setAttribute('aria-hidden', 'false');
+      // 触发 Hugo Book 的 Fuse.js 索引初始化(异步,只执行一次)
+      var bookInput = document.getElementById('book-search-input');
+      if (bookInput) bookInput.dispatchEvent(new Event('focus'));
+      if (mobileSearchInput) mobileSearchInput.focus();
+    }
+
+    function closeMobileSearch() {
+      if (!mobileSearchBar) return;
+      mobileSearchBar.setAttribute('aria-hidden', 'true');
+      if (mobileSearchInput) mobileSearchInput.value = '';
+      var mobileResults = mobileSearchBar.querySelector('.mobile-search-results');
+      if (mobileResults) mobileResults.innerHTML = '';
+    }
+
+    // 直接使用 window.bookSearchIndex(Fuse.js 实例),若未就绪则重试
+    function doMobileSearch() {
+      var query = mobileSearchInput ? mobileSearchInput.value.trim() : '';
+      var mobileResults = mobileSearchBar ? mobileSearchBar.querySelector('.mobile-search-results') : null;
+      if (!mobileResults) return;
+      mobileResults.innerHTML = '';
+      if (!query) return;
+      if (!window.bookSearchIndex) {
+        setTimeout(doMobileSearch, 300);
+        return;
+      }
+      var hits = window.bookSearchIndex.search(query).slice(0, 10);
+      hits.forEach(function(page) {
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+        var small = document.createElement('small');
+        a.href = page.item.href;
+        a.textContent = page.item.title;
+        small.textContent = page.item.section;
+        li.appendChild(a);
+        li.appendChild(small);
+        mobileResults.appendChild(li);
+        a.addEventListener('click', closeMobileSearch);
+      });
+    }
+
+    if (mobileSearchBtn) {
+      mobileSearchBtn.addEventListener('click', openMobileSearch);
+    }
+
+    if (mobileSearchClose) {
+      mobileSearchClose.addEventListener('click', closeMobileSearch);
+    }
+
+    if (mobileSearchInput) {
+      mobileSearchInput.addEventListener('input', doMobileSearch);
+    }
+  });
 })();
 </script>

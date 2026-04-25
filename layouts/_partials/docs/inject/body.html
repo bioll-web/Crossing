@@ -74,8 +74,59 @@
         </svg>
       </span>
     </button>
+    <!-- 移动端搜索图标(小屏才显示) -->
+    <button class="mobile-search-btn" aria-label="搜索" type="button">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+    </button>
+    <!-- 汉堡按钮(小屏才显示) -->
+    <button class="mobile-nav-toggle" aria-label="菜单" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+  <!-- 移动端搜索展开条 -->
+  <div class="mobile-search-bar" aria-hidden="true">
+    <div class="mobile-search-row">
+      <input type="search"
+             placeholder="搜索..."
+             class="mobile-search-input"
+             id="mobile-search-input-field" />
+      <button class="mobile-search-close" aria-label="关闭搜索" type="button">✕</button>
+    </div>
+    <ul class="mobile-search-results"></ul>
   </div>
 </nav>
+
+<!-- 移动端抽屉 -->
+<div class="mobile-nav-drawer" aria-hidden="true">
+  <div class="mobile-nav-backdrop"></div>
+  <nav class="mobile-nav-content">
+    <div class="mobile-nav-expandable-row">
+      <a class="mobile-nav-link-text" href="{{ $prefix }}tech-frontier/">Tech Frontier</a>
+      <button class="mobile-nav-arrow-btn" aria-expanded="false" aria-label="展开子菜单">
+        <span class="mobile-nav-arrow">▾</span>
+      </button>
+    </div>
+    <div class="mobile-nav-sublinks">
+      {{- if eq site.Language.Lang "en" }}
+      <a href="{{ $prefix }}tech-frontier/os-course/">Term 1 · Linux Kernel</a>
+      <a href="{{ $prefix }}tech-frontier/ysyx/">Term 2 · ysyx</a>
+      <a href="{{ $prefix }}tech-frontier/c-lang/">Term 3 · C Language</a>
+      {{- else }}
+      <a href="{{ $prefix }}tech-frontier/os-course/">Term 1 · Linux 内核</a>
+      <a href="{{ $prefix }}tech-frontier/ysyx/">Term 2 · ysyx 一生一芯</a>
+      <a href="{{ $prefix }}tech-frontier/c-lang/">Term 3 · C 语言</a>
+      {{- end }}
+    </div>
+    <a class="mobile-nav-link" href="{{ $prefix }}classic-talk/">Classic Talk</a>
+    <a class="mobile-nav-link" href="{{ $prefix }}wild-program/">Wild Program</a>
+  </nav>
+</div>
 
 <script>
 (function () {
