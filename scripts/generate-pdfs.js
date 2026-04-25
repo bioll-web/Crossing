@@ -7,6 +7,11 @@ const { glob } = require('glob');
 const handler = require('serve-handler');
 const http = require('http');
 
+// 内联 logo：Puppeteer headerTemplate 是独立 iframe，外链图片无法加载
+const logoPath = path.join(__dirname, '..', 'static', 'favicon.svg');
+const logoBase64 = fs.readFileSync(logoPath).toString('base64');
+const logoDataUri = `data:image/svg+xml;base64,${logoBase64}`;
+
 const PUBLIC_DIR = path.resolve(__dirname, '../public');
 const PDF_DIR = path.join(PUBLIC_DIR, 'pdf');
 // Hugo baseURL 的 path 前缀（不含 trailing slash）
@@ -67,6 +72,7 @@ async function main() {
 
     try {
       const page = await browser.newPage();
+      await page.setViewport({ width: 1200, height: 1600, deviceScaleFactor: 1 });
       await page.emulateMediaType('print');
       await page.goto(pageUrl, { waitUntil: 'networkidle0', timeout: 30000 });
 
@@ -103,12 +109,20 @@ async function main() {
         path: pdfFullPath,
         format: 'A4',
         printBackground: true,
-        margin: { top: '20mm', right: '15mm', bottom: '20mm', left: '15mm' },
         displayHeaderFooter: true,
-        headerTemplate: '<div></div>',
+        margin: { top: '25mm', right: '15mm', bottom: '20mm', left: '15mm' },
+        headerTemplate: `
+          <div style="width:100%;font-size:9pt;color:#333;padding:4mm 15mm 0;box-sizing:border-box;display:flex;justify-content:space-between;align-items:center;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <img src="${logoDataUri}" style="width:24pt;height:24pt;vertical-align:middle;" />
+              <span style="font-weight:600;font-size:11pt;">Crossing · 渡口</span>
+            </div>
+            <span class="title" style="color:#777;font-size:9pt;"></span>
+          </div>`,
         footerTemplate: `
-          <div style="font-size:9pt;color:#888;width:100%;text-align:center;">
-            <span class="pageNumber"></span> / <span class="totalPages"></span>
+          <div style="width:100%;font-size:8pt;color:#999;padding:0 15mm;display:flex;justify-content:space-between;">
+            <span class="url"></span>
+            <span><span class="pageNumber"></span> / <span class="totalPages"></span></span>
           </div>`,
       });
 

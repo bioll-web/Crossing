@@ -2,18 +2,38 @@
   {{- if .Params.no_pdf -}}
 <meta name="no-pdf" content="true">
   {{- else -}}
-    {{- /* .Permalink = https://host/Crossing/docs/.../  site.BaseURL = https://host/Crossing/ */}}
     {{- $siteBase := strings.TrimSuffix "/" site.BaseURL -}}
     {{- $pagePart := strings.TrimPrefix $siteBase .Permalink | strings.TrimPrefix "/" -}}
     {{- $pdfHref := relURL (printf "pdf/%sarticle.pdf" $pagePart) -}}
-<div class="pdf-download-wrapper">
-  <a href="{{ $pdfHref }}" class="pdf-download-btn" download>
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-    下载 PDF
-  </a>
-</div>
+    {{- $cleanTitle := .Title | replaceRE "[\\/:*?\"<>|：？／＊]" "-" -}}
+    {{- $filename := printf "Crossing - %s" $cleanTitle -}}
+
+<div class="pdf-download-marker"
+     data-pdf-href="{{ $pdfHref }}"
+     data-pdf-filename="{{ $filename }}"
+     hidden></div>
+<script>
+(function() {
+  var marker = document.currentScript.previousElementSibling;
+  var tryAttach = function(retries) {
+    if (retries === undefined) retries = 20;
+    var h1 = document.querySelector('article h1, main h1, .book-page h1, .markdown h1');
+    if (!h1) {
+      if (retries > 0) setTimeout(function() { tryAttach(retries - 1); }, 50);
+      return;
+    }
+    var btn = document.createElement('a');
+    btn.href = marker.dataset.pdfHref;
+    btn.className = 'pdf-download-btn';
+    btn.setAttribute('download', marker.dataset.pdfFilename + '.pdf');
+    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>PDF</span>';
+    h1.classList.add('h1-with-pdf-btn');
+    h1.appendChild(btn);
+  };
+  tryAttach();
+})();
+</script>
   {{- end -}}
 {{- else -}}
-  {{- /* 章节页 / 标签页 / 首页等聚合页：标记跳过，不生成 PDF */}}
 <meta name="no-pdf" content="true">
 {{- end -}}

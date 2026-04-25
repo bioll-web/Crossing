@@ -1,0 +1,30 @@
+{{/* 可折叠目录树：checkbox-hack 折叠，智能展开当前页祖先链 */}}
+{{- $root := . -}}
+{{- with .Site.GetPage "docs" -}}
+  {{ template "crossing-tree-children" (dict "Section" . "CurrentPage" $root) }}
+{{- end -}}
+
+{{ define "crossing-tree-children" }}
+<ul>
+  {{- range (where .Section.Pages "Params.bookHidden" "ne" true) }}
+    {{- $page := . }}
+    {{- $cur := $.CurrentPage }}
+    {{- if $page.IsSection }}
+      {{- $isAnc := $page.IsAncestor $cur }}
+      {{- $isCur := eq $page $cur }}
+      <li>
+        <input type="checkbox" id="cd-{{ md5 $page }}" class="toggle"{{ if or $isAnc $isCur }} checked{{ end }} />
+        <label for="cd-{{ md5 $page }}">
+          <span>{{ $page.Title }}</span>
+          <span class="arrow">▸</span>
+        </label>
+        {{ template "crossing-tree-children" (dict "Section" $page "CurrentPage" $cur) }}
+      </li>
+    {{- else if and $page.IsPage $page.Content }}
+      <li>
+        <a href="{{ $page.RelPermalink }}"{{ if eq $page $cur }} class="active"{{ end }}>{{ $page.Title }}</a>
+      </li>
+    {{- end }}
+  {{- end }}
+</ul>
+{{ end }}

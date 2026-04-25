@@ -102,34 +102,9 @@
  * ========================================== */
 
 /* 默认隐藏（各断点按需覆盖） */
-.mobile-nav-toggle { display: none; }
-.mobile-nav-drawer  { display: none; }
+.crossing-drawer-toggle { display: none; }
 .mobile-search-btn  { display: none; }
 .mobile-search-bar  { display: none; }
-
-/* ── 汉堡按钮基础样式（display 由断点控制）── */
-.mobile-nav-toggle {
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-  width: 44px;
-  height: 44px;
-}
-.mobile-nav-toggle span {
-  display: block;
-  width: 22px;
-  height: 2px;
-  background: var(--body-font-color);
-  transition: transform 0.3s, opacity 0.3s;
-}
-.mobile-nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.mobile-nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
-.mobile-nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 /* ── 搜索按钮基础样式 ── */
 .mobile-search-btn {
@@ -216,118 +191,27 @@
 }
 .mobile-search-results li:hover { background: var(--hover-bg); }
 
-/* ── 抽屉（激活后全断点可用）── */
-.mobile-nav-drawer[aria-hidden="false"] {
-  display: block;
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  z-index: 1000;
-}
-.mobile-nav-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.4);
-  animation: crossing-fadeIn 0.2s ease-out;
-}
-.mobile-nav-content {
-  position: absolute;
-  top: 0; right: 0; bottom: 0;
-  width: 80%;
-  max-width: 320px;
-  background: var(--body-background);
-  padding: 60px 16px 20px;
-  box-shadow: -2px 0 12px rgba(0,0,0,0.15);
-  animation: crossing-slideIn 0.3s ease-out;
-  overflow-y: auto;
-}
-.mobile-nav-link {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 14px 12px;
-  color: var(--body-font-color);
-  text-decoration: none;
-  font-size: 16px;
-  border-bottom: 1px solid rgba(128,128,128,0.15);
-  min-height: 44px;
-  background: transparent;
-  border-left: none; border-right: none; border-top: none;
-  cursor: pointer;
-  text-align: left;
-  font-family: inherit;
-}
-.mobile-nav-sublinks {
-  display: none;
-  padding-left: 16px;
-}
-.mobile-nav-arrow-btn[aria-expanded="true"] .mobile-nav-arrow { transform: rotate(180deg); }
-.mobile-nav-arrow {
-  display: inline-block;
-  transition: transform 0.2s;
-  font-size: 12px;
-}
-.mobile-nav-sublinks a {
-  display: block;
-  padding: 12px;
-  color: var(--body-font-color);
-  text-decoration: none;
-  font-size: 14px;
-  min-height: 44px;
-  border-bottom: 1px solid rgba(128,128,128,0.08);
-}
-.mobile-nav-expandable-row {
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid rgba(128,128,128,0.15);
-}
-.mobile-nav-link-text {
-  flex: 1;
-  padding: 14px 12px;
-  color: var(--body-font-color);
-  text-decoration: none;
-  font-size: 16px;
-  min-height: 44px;
-  display: flex;
-  align-items: center;
-}
-.mobile-nav-arrow-btn {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0 14px;
-  min-height: 44px;
-  display: flex;
-  align-items: center;
-  color: var(--body-font-color);
-  font-family: inherit;
-}
-
 @keyframes crossing-fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes crossing-slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
 
 /* ══════════════════════════════════════
-   移动端（< 960px）：手机 + iPad 竖屏
+   移动端（≤ 56rem = 896px）：与主题断点对齐
 ══════════════════════════════════════ */
-@media (max-width: 59.99rem) {
-  /* 隐藏桌面顶部导航项，显示汉堡 + 搜索 */
-  .crossing-topnav .nav-item { display: none !important; }
-  .mobile-nav-toggle { display: flex; margin-left: 8px; }
+@media (max-width: 56rem) {
+  /* 移动端：crossing-topnav 整体隐藏（导航由抽屉承担）*/
+  .crossing-topnav { display: none !important; }
   .mobile-search-btn { display: flex; }
-
-  /* 隐藏侧边栏（覆盖 Hugo Book 在 >56rem 显示侧边栏的默认行为） */
-  .book-menu { display: none !important; }
 
   /* 图标间距统一 */
   .topnav-right { gap: 0; }
   .topnav-right .topnav-icon-link,
   .topnav-right #theme-toggle,
   .topnav-right .mobile-search-btn,
-  .topnav-right .mobile-nav-toggle {
+  .topnav-right .crossing-drawer-toggle {
     width: 36px; height: 36px;
     display: flex;
     align-items: center; justify-content: center;
     padding: 0; margin: 0;
+    flex-shrink: 0;
   }
   .topnav-lang { margin: 0 4px; }
 
@@ -405,57 +289,6 @@
 <script>
 (function() {
   document.addEventListener('DOMContentLoaded', function() {
-    var toggle = document.querySelector('.mobile-nav-toggle');
-    var drawer = document.querySelector('.mobile-nav-drawer');
-    var backdrop = document.querySelector('.mobile-nav-backdrop');
-    var expandable = document.querySelector('.mobile-nav-arrow-btn');
-
-    if (!toggle || !drawer) return;
-
-    function openDrawer() {
-      toggle.setAttribute('aria-expanded', 'true');
-      drawer.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-    }
-    function closeDrawer() {
-      toggle.setAttribute('aria-expanded', 'false');
-      drawer.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-    }
-
-    toggle.addEventListener('click', function() {
-      if (toggle.getAttribute('aria-expanded') === 'true') {
-        closeDrawer();
-      } else {
-        openDrawer();
-      }
-    });
-
-    if (backdrop) {
-      backdrop.addEventListener('click', closeDrawer);
-    }
-
-    drawer.querySelectorAll('a').forEach(function(link) {
-      link.addEventListener('click', closeDrawer);
-    });
-
-    if (expandable) {
-      expandable.addEventListener('click', function() {
-        var isOpen = expandable.getAttribute('aria-expanded') === 'true';
-        expandable.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
-        var sublinks = expandable.closest('.mobile-nav-expandable-row').nextElementSibling;
-        sublinks.style.display = isOpen ? 'none' : 'block';
-      });
-    }
-
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        if (drawer.getAttribute('aria-hidden') === 'false') closeDrawer();
-        closeMobileSearch();
-      }
-    });
-
-    // 移动端搜索展开条
     var mobileSearchBtn = document.querySelector('.mobile-search-btn');
     var mobileSearchBar = document.querySelector('.mobile-search-bar');
     var mobileSearchInput = document.querySelector('.mobile-search-input');
@@ -464,7 +297,6 @@
     function openMobileSearch() {
       if (!mobileSearchBar) return;
       mobileSearchBar.setAttribute('aria-hidden', 'false');
-      // 触发 Hugo Book 的 Fuse.js 索引初始化(异步,只执行一次)
       var bookInput = document.getElementById('book-search-input');
       if (bookInput) bookInput.dispatchEvent(new Event('focus'));
       if (mobileSearchInput) mobileSearchInput.focus();
@@ -478,7 +310,6 @@
       if (mobileResults) mobileResults.innerHTML = '';
     }
 
-    // 直接使用 window.bookSearchIndex(Fuse.js 实例),若未就绪则重试
     function doMobileSearch() {
       var query = mobileSearchInput ? mobileSearchInput.value.trim() : '';
       var mobileResults = mobileSearchBar ? mobileSearchBar.querySelector('.mobile-search-results') : null;
@@ -504,17 +335,13 @@
       });
     }
 
-    if (mobileSearchBtn) {
-      mobileSearchBtn.addEventListener('click', openMobileSearch);
-    }
+    if (mobileSearchBtn) mobileSearchBtn.addEventListener('click', openMobileSearch);
+    if (mobileSearchClose) mobileSearchClose.addEventListener('click', closeMobileSearch);
+    if (mobileSearchInput) mobileSearchInput.addEventListener('input', doMobileSearch);
 
-    if (mobileSearchClose) {
-      mobileSearchClose.addEventListener('click', closeMobileSearch);
-    }
-
-    if (mobileSearchInput) {
-      mobileSearchInput.addEventListener('input', doMobileSearch);
-    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeMobileSearch();
+    });
   });
 })();
 </script>

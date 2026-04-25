@@ -83,7 +83,7 @@
       </svg>
     </button>
     <!-- 汉堡按钮(小屏才显示) -->
-    <button class="mobile-nav-toggle" aria-label="菜单" aria-expanded="false">
+    <button class="crossing-drawer-toggle" aria-label="菜单" aria-expanded="false">
       <span></span>
       <span></span>
       <span></span>
@@ -102,31 +102,44 @@
   </div>
 </nav>
 
-<!-- 移动端抽屉 -->
-<div class="mobile-nav-drawer" aria-hidden="true">
-  <div class="mobile-nav-backdrop"></div>
-  <nav class="mobile-nav-content">
-    <div class="mobile-nav-expandable-row">
-      <a class="mobile-nav-link-text" href="{{ $prefix }}tech-frontier/">Tech Frontier</a>
-      <button class="mobile-nav-arrow-btn" aria-expanded="false" aria-label="展开子菜单">
-        <span class="mobile-nav-arrow">▾</span>
-      </button>
+<!-- 移动端抽屉遮罩 -->
+<div class="crossing-drawer-backdrop"></div>
+
+<!-- 移动端自建抽屉 -->
+<aside class="crossing-drawer" aria-hidden="true">
+  <header class="crossing-drawer-header">
+    <button class="crossing-drawer-close" aria-label="关闭">✕</button>
+    <span class="crossing-drawer-title">Crossing</span>
+  </header>
+  <div class="crossing-drawer-content">
+    <!-- 状态 A：主页 -->
+    <div class="crossing-drawer-home" hidden>
+      <a class="crossing-drawer-card" href="{{ $prefix }}tech-frontier/">
+        <p class="title">Tech Frontier</p>
+        <p class="desc">底层系统笔记 · OS / 处理器 / C</p>
+      </a>
+      <a class="crossing-drawer-card" href="{{ $prefix }}classic-talk/">
+        <p class="title">Classic Talk</p>
+        <p class="desc">古典文学 · 哲学 · 电影</p>
+      </a>
+      <a class="crossing-drawer-card" href="{{ $prefix }}wild-program/">
+        <p class="title">Wild Program</p>
+        <p class="desc">练手项目 · 命令行小工具</p>
+      </a>
     </div>
-    <div class="mobile-nav-sublinks">
-      {{- if eq site.Language.Lang "en" }}
-      <a href="{{ $prefix }}tech-frontier/os-course/">Term 1 · Linux Kernel</a>
-      <a href="{{ $prefix }}tech-frontier/ysyx/">Term 2 · ysyx</a>
-      <a href="{{ $prefix }}tech-frontier/c-lang/">Term 3 · C Language</a>
-      {{- else }}
-      <a href="{{ $prefix }}tech-frontier/os-course/">Term 1 · Linux 内核</a>
-      <a href="{{ $prefix }}tech-frontier/ysyx/">Term 2 · ysyx 一生一芯</a>
-      <a href="{{ $prefix }}tech-frontier/c-lang/">Term 3 · C 语言</a>
-      {{- end }}
+    <!-- 状态 B：板块内 -->
+    <div class="crossing-drawer-section" hidden>
+      <nav class="crossing-drawer-tabs">
+        <a href="{{ $prefix }}tech-frontier/" data-section="tech-frontier">Tech</a>
+        <a href="{{ $prefix }}classic-talk/" data-section="classic-talk">Classic</a>
+        <a href="{{ $prefix }}wild-program/" data-section="wild-program">Wild</a>
+      </nav>
+      <div class="crossing-drawer-tree">
+        {{ partial "crossing-drawer-tree" . }}
+      </div>
     </div>
-    <a class="mobile-nav-link" href="{{ $prefix }}classic-talk/">Classic Talk</a>
-    <a class="mobile-nav-link" href="{{ $prefix }}wild-program/">Wild Program</a>
-  </nav>
-</div>
+  </div>
+</aside>
 
 <script>
 (function () {
@@ -165,4 +178,51 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
+</script>
+
+<script>
+(function() {
+  var drawer = document.querySelector('.crossing-drawer');
+  var backdrop = document.querySelector('.crossing-drawer-backdrop');
+  var toggle = document.querySelector('.crossing-drawer-toggle');
+  var closeBtn = document.querySelector('.crossing-drawer-close');
+  var homeView = document.querySelector('.crossing-drawer-home');
+  var sectionView = document.querySelector('.crossing-drawer-section');
+
+  if (!drawer) return;
+
+  var path = window.location.pathname;
+  var isHome = path === '/Crossing/' || path === '/Crossing/index.html' || path === '/Crossing';
+
+  if (isHome) {
+    if (homeView) homeView.hidden = false;
+  } else {
+    if (sectionView) {
+      sectionView.hidden = false;
+      sectionView.querySelectorAll('.crossing-drawer-tabs a').forEach(function(tab) {
+        if (path.includes('/docs/' + tab.dataset.section + '/')) {
+          tab.classList.add('active');
+        }
+      });
+    }
+  }
+
+  function openDrawer() {
+    document.body.classList.add('crossing-drawer-open');
+    drawer.setAttribute('aria-hidden', 'false');
+    if (toggle) toggle.setAttribute('aria-expanded', 'true');
+  }
+  function closeDrawer() {
+    document.body.classList.remove('crossing-drawer-open');
+    drawer.setAttribute('aria-hidden', 'true');
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+  }
+
+  if (toggle) toggle.addEventListener('click', function() {
+    document.body.classList.contains('crossing-drawer-open') ? closeDrawer() : openDrawer();
+  });
+  if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+  if (backdrop) backdrop.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeDrawer(); });
+})();
 </script>
