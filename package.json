@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "generate-pdfs": "node scripts/generate-pdfs.js"
+    "generate-pdfs": "node scripts/generate-pdfs.js",
+    "build:clean": "rimraf public && hugo --minify && npm run generate-pdfs"
   },
   "devDependencies": {
     "glob": "^10.4.5",
     "puppeteer": "^23.0.0",
+    "rimraf": "^6.0.1",
     "serve-handler": "^6.1.5"
   }
 }
