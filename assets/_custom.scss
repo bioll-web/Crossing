@@ -730,29 +730,30 @@ body {
     display: none !important;
   }
 
-  // ── PDF 按钮移动端重做 ──────────────────────────────────────────
-  // 取消桌面端 flex 布局，让按钮独占一行并居中
+  // ── PDF 按钮移动端：贴标题右侧横向布局 ────────────────────────
   .h1-with-pdf-btn {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
   }
 
   .pdf-download-btn {
     display: inline-flex;
-    margin-top: 10px;
     align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 6px 14px;
-    font-size: 13px;
+    gap: 4px;
+    padding: 4px 10px;
+    font-size: 12px;
     border-radius: 6px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 4px;
   }
 
   // ── 顶部栏图标间距统一 ──────────────────────────────────────────
   // 用更高特异性（0,2,0 > 0,1,0）覆盖 head.html 内联样式的 gap:0
   .topnav .topnav-right {
-    gap: 4px;
+    gap: 12px;
   }
 
   // 去掉 .topnav-lang 单独的 margin:0 4px，统一靠 gap 控制
