@@ -21,6 +21,7 @@ defaultContentLanguage = 'zh'
   BookSearch = true
   BookMenuBundle = false
   BookCollapseSection = true
+  BookServiceWorker = true
 
 [markup]
   [markup.goldmark]
