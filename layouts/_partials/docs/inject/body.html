@@ -129,11 +129,6 @@
     </div>
     <!-- 状态 B：板块内 -->
     <div class="crossing-drawer-section" hidden>
-      <nav class="crossing-drawer-tabs">
-        <a href="{{ $prefix }}tech-frontier/" data-section="tech-frontier">Tech</a>
-        <a href="{{ $prefix }}classic-talk/" data-section="classic-talk">Classic</a>
-        <a href="{{ $prefix }}wild-program/" data-section="wild-program">Wild</a>
-      </nav>
       <div class="crossing-drawer-tree">
         {{ partial "crossing-drawer-tree" . }}
       </div>
@@ -199,11 +194,6 @@ document.addEventListener('DOMContentLoaded', function() {
   } else {
     if (sectionView) {
       sectionView.hidden = false;
-      sectionView.querySelectorAll('.crossing-drawer-tabs a').forEach(function(tab) {
-        if (path.includes('/docs/' + tab.dataset.section + '/')) {
-          tab.classList.add('active');
-        }
-      });
     }
   }
 

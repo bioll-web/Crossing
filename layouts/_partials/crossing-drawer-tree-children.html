@@ -1,14 +1,11 @@
-{{- $current := . -}}
-{{- $docsRoot := .Site.GetPage "/docs" -}}
-{{- if not $docsRoot -}}
-  {{- $docsRoot = .Site.GetPage "section" "docs" -}}
-{{- end -}}
+{{- $node := .node -}}
+{{- $current := .current -}}
+{{- $depth := .depth -}}
 
-{{- if $docsRoot -}}
-<ul class="crossing-tree-root">
-  {{- range $docsRoot.Sections -}}
+<ul class="tree-level tree-level-{{ $depth }}">
+  {{- range $node.Pages -}}
     {{- $isOnPath := or (eq . $current) (.IsAncestor $current) -}}
-    {{- $hasChildren := gt (len .Pages) 0 -}}
+    {{- $hasChildren := and .IsSection (gt (len .Pages) 0) -}}
     <li class="tree-item{{ if $isOnPath }} is-open{{ end }}">
       <a href="{{ .RelPermalink }}" class="tree-link{{ if eq . $current }} active{{ end }}">
         {{- if $hasChildren -}}
@@ -18,10 +15,9 @@
         {{- end -}}
         <span class="label">{{ .Title }}</span>
       </a>
-      {{- if $isOnPath -}}
-        {{- partial "crossing-drawer-tree-children.html" (dict "node" . "current" $current "depth" 1) -}}
+      {{- if and $hasChildren $isOnPath -}}
+        {{- partial "crossing-drawer-tree-children.html" (dict "node" . "current" $current "depth" (add $depth 1)) -}}
       {{- end -}}
     </li>
   {{- end -}}
 </ul>
-{{- end -}}
