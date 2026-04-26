@@ -458,15 +458,6 @@ body {
   }
 }
 
-@media (max-width: 37.5rem) {
-  .pdf-download-btn {
-    font-size: 11px;
-    padding: 3px 8px;
-    gap: 4px;
-
-    svg { width: 12px; height: 12px; }
-  }
-}
 
 @media print {
   /* 隐藏非正文元素（精确选择器，避免误伤正文内的 nav） */
@@ -737,6 +728,35 @@ body {
   /* 旧 .book-menu 彻底隐藏（由新抽屉替代） */
   .book-menu {
     display: none !important;
+  }
+
+  // ── PDF 按钮移动端重做 ──────────────────────────────────────────
+  // 取消桌面端 flex 布局，让按钮独占一行并居中
+  .h1-with-pdf-btn {
+    display: block;
+  }
+
+  .pdf-download-btn {
+    display: flex;
+    width: fit-content;
+    margin: 10px auto 0;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 6px 14px;
+    font-size: 13px;
+    border-radius: 6px;
+  }
+
+  // ── 顶部栏图标间距统一 ──────────────────────────────────────────
+  // 用更高特异性（0,2,0 > 0,1,0）覆盖 head.html 内联样式的 gap:0
+  .topnav .topnav-right {
+    gap: 4px;
+  }
+
+  // 去掉 .topnav-lang 单独的 margin:0 4px，统一靠 gap 控制
+  .topnav .topnav-lang {
+    margin: 0;
   }
 }
 
