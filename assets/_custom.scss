@@ -433,47 +433,12 @@ body {
   display: block;
 }
 
-// ── 8. PDF 下载按钮（H1 右侧）──────────────────────────────────
-
-.h1-with-pdf-btn {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.pdf-download-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 4px 10px;
-  font-size: 12px;
-  font-weight: 500;
-  background: transparent;
-  border: 1px solid var(--gray-300, #ddd);
-  border-radius: 5px;
-  color: var(--gray-600, #666);
-  text-decoration: none;
-  white-space: nowrap;
-  flex-shrink: 0;
-  transition: all 0.15s ease;
-
-  svg { opacity: 0.85; }
-
-  &:hover {
-    border-color: var(--color-link, #6366f1);
-    color: var(--color-link, #6366f1);
-    background: rgba(108, 124, 247, 0.05);
-    text-decoration: none;
-  }
-}
-
 
 @media print {
   /* 隐藏非正文元素（精确选择器，避免误伤正文内的 nav） */
   #crossing-splash,
-  .pdf-download-btn,
+  .article-resources,
+  .pdf-download-link,
   .pdf-download-marker,
   .topnav,
   .book-menu,
@@ -741,44 +706,6 @@ body {
     display: none !important;
   }
 
-  // ── PDF 按钮移动端：贴标题右侧横向布局 ────────────────────────
-  .h1-with-pdf-btn {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .markdown .h1-with-pdf-btn h1,
-  .h1-with-pdf-btn h1 {
-    font-size: clamp(20px, 5vw, 28px) !important;
-    line-height: 1.3 !important;
-    flex: 1;
-    min-width: 0;
-    margin: 0;
-  }
-
-  .pdf-download-btn {
-    display: inline-flex !important;
-    width: auto !important;
-    align-items: center;
-    gap: 4px;
-    padding: 4px 10px;
-    font-size: 12px;
-    font-weight: 500;
-    border-radius: 999px;
-    background: var(--color-link, #6366f1);
-    color: #fff !important;
-    border: none;
-    white-space: nowrap;
-    flex-shrink: 0;
-    margin-top: 4px;
-    margin-left: auto;
-    text-decoration: none;
-  }
-  .pdf-download-btn:hover { opacity: 0.85; }
-
   // ── 顶部栏图标间距统一 ──────────────────────────────────────────
   // 用更高特异性（0,2,0 > 0,1,0）覆盖 head.html 内联样式的 gap:0
   .topnav .topnav-right {
@@ -797,5 +724,168 @@ body {
   .crossing-drawer-toggle,
   .crossing-drawer-backdrop {
     display: none !important;
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════
+// 文章页内容区（重新设计 2026-04）
+// 设计原则：技术文档风格，紧凑信息密集，PDF 入口移至文末
+// ══════════════════════════════════════════════════════════════════
+
+// ── 标题层级 ─────────────────────────────────────────────────────
+.book-page .markdown {
+  h1 {
+    font-size: clamp(21px, calc(4.5vw + 8px), 32px);
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    margin: 0 0 1.25rem;
+  }
+
+  h2 {
+    font-size: clamp(17px, calc(2.5vw + 8px), 22px);
+    font-weight: 500;
+    line-height: 1.3;
+    margin: 2rem 0 0.75rem;
+    padding-top: 0.25rem;
+  }
+
+  h3 {
+    font-size: clamp(15px, calc(1.5vw + 8px), 18px);
+    font-weight: 500;
+    line-height: 1.35;
+    margin: 1.5rem 0 0.5rem;
+  }
+
+  // ── 正文 ────────────────────────────────────────────────────────
+  p, li {
+    font-size: clamp(14px, calc(0.5vw + 13px), 16px);
+    line-height: 1.75;
+  }
+
+  p { margin: 0 0 1rem; }
+
+  ul, ol {
+    margin: 0 0 1.25rem;
+    padding-left: 1.4rem;
+
+    li { margin-bottom: 0.25rem; }
+  }
+
+  // ── 内联代码：紫色文字 + 浅灰背景 ─────────────────────────────────
+  code:not(pre code) {
+    background: var(--gray-100, #f4f4f5);
+    color: var(--color-link, #6366f1);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 0.875em;
+    font-family: var(--font-mono, ui-monospace, "SF Mono", Menlo, Consolas, monospace);
+  }
+
+  // ── 代码块：深色主题（即使站点是浅色模式）────────────────────────
+  pre {
+    background: #1e1e2e !important;
+    color: #cdd6f4;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 0 0 1.25rem;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.6;
+    border: none;
+
+    code {
+      background: transparent !important;
+      color: inherit !important;
+      padding: 0;
+      font-family: var(--font-mono, ui-monospace, "SF Mono", Menlo, Consolas, monospace);
+    }
+  }
+
+  // ── 引用块（blockquote）──────────────────────────────────────────
+  blockquote {
+    border-left: 3px solid var(--color-link, #6366f1);
+    padding: 0.25rem 0 0.25rem 1rem;
+    margin: 1rem 0 1.25rem;
+    color: var(--gray-500, #71717a);
+    font-style: normal;
+
+    p:last-child { margin-bottom: 0; }
+  }
+}
+
+// ── 文末"本章资源"区块（PDF 下载入口）────────────────────────────
+.article-resources {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-color, #e4e4e7);
+}
+
+.article-resources-label {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gray-500, #71717a);
+  margin: 0 0 0.625rem;
+}
+
+.pdf-download-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--gray-100, #f4f4f5);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--body-font-color, #18181b);
+  font-size: 14px;
+  transition: border-color 0.15s, background 0.15s;
+  max-width: 360px;
+
+  .pdf-icon {
+    display: flex;
+    color: var(--color-link, #6366f1);
+    flex-shrink: 0;
+  }
+
+  .pdf-link-title {
+    flex: 1;
+    font-weight: 500;
+  }
+
+  .pdf-link-action {
+    color: var(--gray-500, #71717a);
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    border-color: var(--color-link, #6366f1);
+    background: var(--gray-200, #e4e4e7);
+    text-decoration: none;
+  }
+}
+
+// ── 深色模式微调 ────────────────────────────────────────────────
+:root[data-theme="dark"] .article-resources {
+  border-top-color: var(--border-color, #26262a);
+}
+
+:root[data-theme="dark"] .pdf-download-link {
+  background: var(--card-bg, #161618);
+
+  &:hover {
+    background: rgba(129, 140, 248, 0.08);
+  }
+}
+
+// 极窄屏（≤360px，老 iPhone SE）：链接卡片紧凑一点
+@media (max-width: 22.5rem) {
+  .pdf-download-link {
+    padding: 9px 11px;
+    font-size: 13px;
+    gap: 8px;
   }
 }
