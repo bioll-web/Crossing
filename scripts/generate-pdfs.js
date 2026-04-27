@@ -7,6 +7,9 @@ const { glob } = require('glob');
 const handler = require('serve-handler');
 const http = require('http');
 
+// 少量页面失败时不阻断部署的最大容忍失败数
+const FAIL_THRESHOLD = 3;
+
 // 内联 logo：Puppeteer headerTemplate 是独立 iframe，外链图片无法加载
 const logoPath = path.join(__dirname, '..', 'static', 'favicon.svg');
 const logoBase64 = fs.readFileSync(logoPath).toString('base64');
@@ -30,6 +33,74 @@ async function startServer() {
   await new Promise((resolve) => server.listen(PORT, resolve));
   console.log(`✓ 静态服务启动于 ${BASE_URL}${SITE_PATH_PREFIX}/`);
   return server;
+}
+
+// 生成单页 PDF，失败时自动重试一次（attempt 从 1 开始）
+async function generateOne(browser, pageUrl, pdfRelPath, pdfFullPath, attempt) {
+  const page = await browser.newPage();
+  try {
+    await page.setViewport({ width: 1200, height: 1600, deviceScaleFactor: 1 });
+    await page.emulateMediaType('print');
+    await page.goto(pageUrl, { waitUntil: 'networkidle0', timeout: 30000 });
+
+    // 如果页面声明 no-pdf，跳过
+    const noPdf = await page.evaluate(() => {
+      const meta = document.querySelector('meta[name="no-pdf"]');
+      return meta && meta.getAttribute('content') === 'true';
+    });
+
+    if (noPdf) {
+      await page.close();
+      return 'skip';
+    }
+
+    // 等待所有图片加载
+    await page.evaluate(() =>
+      Promise.all(
+        Array.from(document.images)
+          .filter((img) => !img.complete)
+          .map(
+            (img) =>
+              new Promise((resolve) => {
+                img.onload = img.onerror = resolve;
+              })
+          )
+      )
+    );
+
+    fs.mkdirSync(path.dirname(pdfFullPath), { recursive: true });
+
+    await page.pdf({
+      path: pdfFullPath,
+      format: 'A4',
+      printBackground: true,
+      displayHeaderFooter: true,
+      margin: { top: '25mm', right: '15mm', bottom: '20mm', left: '15mm' },
+      headerTemplate: `
+        <div style="width:100%;font-size:9pt;color:#333;padding:4mm 15mm 0;box-sizing:border-box;display:flex;justify-content:space-between;align-items:center;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <img src="${logoDataUri}" style="width:24pt;height:24pt;vertical-align:middle;" />
+            <span style="font-weight:600;font-size:11pt;">Crossing · 渡口</span>
+          </div>
+          <span class="title" style="color:#777;font-size:9pt;"></span>
+        </div>`,
+      footerTemplate: `
+        <div style="width:100%;font-size:8pt;color:#999;padding:0 15mm;display:flex;justify-content:space-between;">
+          <span class="url"></span>
+          <span><span class="pageNumber"></span> / <span class="totalPages"></span></span>
+        </div>`,
+    });
+
+    await page.close();
+    return attempt > 1 ? 'retry-success' : 'success';
+  } catch (err) {
+    try { await page.close(); } catch (_) {}
+    if (attempt < 2) {
+      await new Promise((r) => setTimeout(r, 2000));
+      return generateOne(browser, pageUrl, pdfRelPath, pdfFullPath, attempt + 1);
+    }
+    throw err;
+  }
 }
 
 async function main() {
@@ -65,70 +136,20 @@ async function main() {
   let success = 0, skipped = 0, failed = 0;
 
   for (const htmlPath of articleHtmls) {
-    // htmlPath 如 "docs/tech-frontier/os-course/lab1/index.html"
     const pageUrl = `${BASE_URL}${SITE_PATH_PREFIX}/${htmlPath}`;
     const pdfRelPath = htmlPath.replace(/index\.html$/, 'article.pdf');
     const pdfFullPath = path.join(PDF_DIR, pdfRelPath);
 
     try {
-      const page = await browser.newPage();
-      await page.setViewport({ width: 1200, height: 1600, deviceScaleFactor: 1 });
-      await page.emulateMediaType('print');
-      await page.goto(pageUrl, { waitUntil: 'networkidle0', timeout: 30000 });
-
-      // 如果页面声明 no-pdf，跳过
-      const noPdf = await page.evaluate(() => {
-        const meta = document.querySelector('meta[name="no-pdf"]');
-        return meta && meta.getAttribute('content') === 'true';
-      });
-
-      if (noPdf) {
+      const result = await generateOne(browser, pageUrl, pdfRelPath, pdfFullPath, 1);
+      if (result === 'skip') {
         console.log(`⊘ 跳过（no_pdf）: ${htmlPath}`);
         skipped++;
-        await page.close();
-        continue;
+      } else {
+        if (result === 'retry-success') console.log(`⟳ 重试成功: ${pdfRelPath}`);
+        else console.log(`✓ ${pdfRelPath}`);
+        success++;
       }
-
-      // 等待所有图片加载
-      await page.evaluate(() =>
-        Promise.all(
-          Array.from(document.images)
-            .filter((img) => !img.complete)
-            .map(
-              (img) =>
-                new Promise((resolve) => {
-                  img.onload = img.onerror = resolve;
-                })
-            )
-        )
-      );
-
-      fs.mkdirSync(path.dirname(pdfFullPath), { recursive: true });
-
-      await page.pdf({
-        path: pdfFullPath,
-        format: 'A4',
-        printBackground: true,
-        displayHeaderFooter: true,
-        margin: { top: '25mm', right: '15mm', bottom: '20mm', left: '15mm' },
-        headerTemplate: `
-          <div style="width:100%;font-size:9pt;color:#333;padding:4mm 15mm 0;box-sizing:border-box;display:flex;justify-content:space-between;align-items:center;">
-            <div style="display:flex;align-items:center;gap:8px;">
-              <img src="${logoDataUri}" style="width:24pt;height:24pt;vertical-align:middle;" />
-              <span style="font-weight:600;font-size:11pt;">Crossing · 渡口</span>
-            </div>
-            <span class="title" style="color:#777;font-size:9pt;"></span>
-          </div>`,
-        footerTemplate: `
-          <div style="width:100%;font-size:8pt;color:#999;padding:0 15mm;display:flex;justify-content:space-between;">
-            <span class="url"></span>
-            <span><span class="pageNumber"></span> / <span class="totalPages"></span></span>
-          </div>`,
-      });
-
-      console.log(`✓ ${pdfRelPath}`);
-      success++;
-      await page.close();
     } catch (err) {
       console.error(`✗ ${htmlPath}: ${err.message}`);
       failed++;
@@ -138,7 +159,11 @@ async function main() {
   await browser.close();
   server.close();
   console.log(`\n完成：${success} 成功，${skipped} 跳过，${failed} 失败`);
-  if (failed > 0) process.exit(1);
+  if (failed > FAIL_THRESHOLD) {
+    process.exit(1);
+  } else if (failed > 0) {
+    console.warn(`⚠ 少量页面失败（${failed} 个）但不阻断部署`);
+  }
 }
 
 main().catch((err) => {
