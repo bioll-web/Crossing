@@ -889,3 +889,44 @@ body {
     gap: 8px;
   }
 }
+
+// ══════════════════════════════════════════════════════════════════
+// 代码块精修:字号、注释颜色、内联代码协调性
+// 配合 Hugo Chroma style "github-dark"
+// ══════════════════════════════════════════════════════════════════
+
+// 代码块字号锁定:只比正文小 1px,不再断层
+.book-page .markdown {
+  pre code,
+  pre {
+    font-size: clamp(13px, calc(0.3vw + 12.5px), 15px);
+    line-height: 1.65;
+  }
+
+  // 注释颜色覆盖:统一改成柔和灰绿,不论 Chroma 主题给什么色
+  // .c   = 通用注释
+  // .ch  = hashbang 注释
+  // .cm  = 多行注释
+  // .cp  = 预处理指令(C/C++ #include 这种)
+  // .cpf = 预处理文件名
+  // .c1  = 单行注释
+  // .cs  = 特殊注释
+  pre .c,
+  pre .ch,
+  pre .cm,
+  pre .cp,
+  pre .cpf,
+  pre .c1,
+  pre .cs {
+    color: #7a8a82 !important;        // 柔和灰绿,不刺眼
+    font-style: italic;
+    opacity: 0.85;
+  }
+
+  // 内联代码字号:与正文同字号或仅小 0.5px
+  // 之前 0.875em 在 16px 正文里 = 14px,显得太小
+  code:not(pre code) {
+    font-size: 0.92em;
+    padding: 1px 6px;                 // 保持紧凑
+  }
+}

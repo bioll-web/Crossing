@@ -24,6 +24,12 @@ defaultContentLanguage = 'zh'
   BookServiceWorker = true
 
 [markup]
+  [markup.highlight]
+    style = "github-dark"
+    lineNos = false
+    codeFences = true
+    guessSyntax = false
+    noClasses = false
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
