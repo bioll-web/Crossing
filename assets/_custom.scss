@@ -67,6 +67,13 @@
   --lang-border:  #d4d4d8;
 }
 
+// ── 2.5 消除 iOS 300ms tap 延迟 ────────────────────────────────
+html { touch-action: manipulation; }
+.crossing-drawer-tree a,
+.book-menu a {
+  touch-action: manipulation;
+}
+
 // ── 3. 桌面布局（60rem = 960px，单一断点）───────────────────────
 @media screen and (min-width: 60rem) {
 
@@ -216,13 +223,15 @@ body {
 .topnav-right {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: clamp(4px, 1.8vw, 12px);
   margin-left: auto;
 }
 
 .topnav-lang {
   display: flex;
   gap: 0.5rem;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .topnav-lang-link {
@@ -233,6 +242,8 @@ body {
   text-decoration: none;
   border: 1px solid var(--lang-border, #3f3f46);
   transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .topnav-lang-link:hover {
@@ -745,16 +756,22 @@ body {
     gap: 4px;
     padding: 4px 10px;
     font-size: 12px;
-    border-radius: 6px;
+    font-weight: 500;
+    border-radius: 999px;
+    background: var(--color-link, #6366f1);
+    color: #fff !important;
+    border: none;
     white-space: nowrap;
     flex-shrink: 0;
     margin-top: 4px;
+    text-decoration: none;
   }
+  .pdf-download-btn:hover { opacity: 0.85; }
 
   // ── 顶部栏图标间距统一 ──────────────────────────────────────────
   // 用更高特异性（0,2,0 > 0,1,0）覆盖 head.html 内联样式的 gap:0
   .topnav .topnav-right {
-    gap: 12px;
+    gap: clamp(4px, 1.8vw, 12px);
   }
 
   // 去掉 .topnav-lang 单独的 margin:0 4px，统一靠 gap 控制
