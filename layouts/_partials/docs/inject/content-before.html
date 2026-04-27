@@ -17,24 +17,40 @@
   var marker = document.currentScript.previousElementSibling;
   var tryAttach = function(retries) {
     if (retries === undefined) retries = 20;
-    var h1 = document.querySelector('article h1, main h1, .book-page h1, .markdown h1');
-    if (!h1) {
+    var article = document.querySelector('article.markdown, .book-page .markdown, main .markdown');
+    if (!article) {
       if (retries > 0) setTimeout(function() { tryAttach(retries - 1); }, 50);
       return;
     }
-    var isMobile = /Mobi|Android/i.test(navigator.userAgent);
+
+    // 不再插到 H1 旁边，改插到文章末尾的"本章资源"区块
+    var resources = document.createElement('div');
+    resources.className = 'article-resources';
+
+    var label = document.createElement('p');
+    label.className = 'article-resources-label';
+    label.textContent = '本章资源';
+    resources.appendChild(label);
+
     var btn = document.createElement('a');
     btn.href = marker.dataset.pdfHref;
-    btn.className = 'pdf-download-btn';
+    btn.className = 'pdf-download-link';
+    var isMobile = /Mobi|Android/i.test(navigator.userAgent);
     if (isMobile) {
       btn.target = '_blank';
       btn.rel = 'noopener';
     } else {
       btn.setAttribute('download', marker.dataset.pdfFilename + '.pdf');
     }
-    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>' + (isMobile ? '查看 PDF' : 'PDF') + '</span>';
-    h1.classList.add('h1-with-pdf-btn');
-    h1.appendChild(btn);
+    btn.innerHTML =
+      '<span class="pdf-icon" aria-hidden="true">' +
+        '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>' +
+      '</span>' +
+      '<span class="pdf-link-title">完整章节 PDF</span>' +
+      '<span class="pdf-link-action">' + (isMobile ? '查看 ↗' : '↓ 下载') + '</span>';
+    resources.appendChild(btn);
+
+    article.appendChild(resources);
   };
   tryAttach();
 })();
