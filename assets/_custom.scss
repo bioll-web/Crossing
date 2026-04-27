@@ -736,11 +736,11 @@ body {
     align-items: flex-start;
     justify-content: space-between;
     gap: 8px;
-    flex-wrap: nowrap;
   }
 
   .pdf-download-btn {
-    display: inline-flex;
+    display: inline-flex !important;
+    width: auto !important;
     align-items: center;
     gap: 4px;
     padding: 4px 10px;
