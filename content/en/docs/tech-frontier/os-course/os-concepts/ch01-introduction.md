@@ -1,5 +1,5 @@
 ---
-title: "Ch.1 Introduction"
+title: "第 1 章：操作系统是什么"
 weight: 1
 ---
 

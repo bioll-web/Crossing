@@ -1,5 +1,5 @@
 ---
-title: "Ch.8 Main Memory"
+title: "第 8 章：内存管理"
 weight: 8
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: "Ch.12 I/O Systems"
+title: "第 12 章：I/O 系统"
 weight: 12
 ---
 

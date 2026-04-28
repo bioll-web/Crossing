@@ -1,5 +1,5 @@
 ---
-title: "Ch.9 Virtual Memory"
+title: "第 9 章：虚拟内存"
 weight: 9
 ---
 

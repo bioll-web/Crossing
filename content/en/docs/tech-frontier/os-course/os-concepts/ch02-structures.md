@@ -1,5 +1,5 @@
 ---
-title: "Ch.2 OS Structures"
+title: "第 2 章：操作系统结构"
 weight: 2
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: "Ch.4 Threads"
+title: "第 4 章：线程与并发"
 weight: 4
 ---
 

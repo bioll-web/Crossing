@@ -1,5 +1,5 @@
 ---
-title: "Ch.5 Process Scheduling"
+title: "第 5 章：CPU 调度"
 weight: 5
 ---
 

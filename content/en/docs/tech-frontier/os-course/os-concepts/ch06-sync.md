@@ -1,5 +1,5 @@
 ---
-title: "Ch.6 Synchronization"
+title: "第 6 章：进程同步"
 weight: 6
 ---
 

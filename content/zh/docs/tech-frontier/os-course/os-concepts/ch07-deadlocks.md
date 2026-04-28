@@ -1,5 +1,5 @@
 ---
-title: "Ch.7 Deadlocks"
+title: "第 7 章：死锁"
 weight: 7
 ---
 
