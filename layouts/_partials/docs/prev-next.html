@@ -16,8 +16,8 @@
   {{ $next := $pages.Prev $currentPage }}
 
   {{- if or $prev $next }}
-  <div class="flex flex-wrap justify-between">
-    <span>
+  <div style="display:flex;flex-wrap:wrap;gap:0.75rem;justify-content:space-between;">
+    <span style="flex:1 1 260px;">
     {{ with $prev }}
       <a href="{{ .RelPermalink }}" class="flex align-center">
         <img src="{{ partial "docs/icon" "backward" }}" class="book-icon" alt="{{ partial "docs/text/i18n" "Backward" }}" />
@@ -25,9 +25,9 @@
       </a>
     {{ end }}
     </span>
-    <span>
+    <span style="flex:1 1 260px;text-align:right;">
     {{ with $next }}
-      <a href="{{ .RelPermalink }}" class="flex align-center">
+      <a href="{{ .RelPermalink }}" class="flex align-center" style="justify-content:flex-end;">
         <span>{{ partial "docs/title" . }}</span>
         <img src="{{ partial "docs/icon" "forward" }}" class="book-icon" alt="{{ partial "docs/text/i18n" "Forward" }}" />
       </a>

@@ -12,7 +12,7 @@ title: "Crossing · 渡口"
 <div class="term-cards">
   <a class="term-card" href="/Crossing/docs/tech-frontier/">
     <h3>Tech Frontier</h3>
-    <p>底层系统的学习记录 —— 操作系统内核、处理器设计、C 语言底层机制。目前进行 Term 1 Linux 内核、Term 2 ysyx 一生一芯、Term 3 C 语言学习三条主线。</p>
+    <p>底层系统的学习记录 —— 操作系统内核、处理器设计、C 语言底层机制。目前进行 Term 1 深入了解操作系统、Term 2 ysyx 一生一芯、Term 3 C 语言学习三条主线。</p>
     <span class="term-card-cta">进入 Tech Frontier →</span>
   </a>
   <a class="term-card" href="/Crossing/docs/classic-talk/">

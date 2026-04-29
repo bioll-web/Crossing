@@ -1,5 +1,5 @@
 ---
-title: "Term 1: Linux 内核深度解析"
+title: "Term 1: 深入了解操作系统"
 weight: 1
 bookCollapseSection: true
 ---

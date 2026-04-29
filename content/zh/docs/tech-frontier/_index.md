@@ -16,8 +16,8 @@ bookCollapseSection: true
 <div class="term-cards">
   <a class="term-card" href="/Crossing/docs/tech-frontier/os-course/">
     <h3>Term 1</h3>
-    <div class="term-subtitle">Linux 内核深度解析</div>
-    <p>从 Linux 0.01 源码到手写 OS，三条线并行推进：Linux 内核源码分析、OS in 1,000 Lines、MIT 6.828 实验。</p>
+    <div class="term-subtitle">深入了解操作系统</div>
+    <p>源码、教材、动手三线并行：Linux 0.01 源码解析、《操作系统概念》深入阅读、OS in 1,000 Lines 手写内核，外加一条延伸阅读资源索引线。</p>
     <span class="term-card-cta">进入 Term 1 →</span>
   </a>
   <a class="term-card" href="/Crossing/docs/tech-frontier/ysyx/">
